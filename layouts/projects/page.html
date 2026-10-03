@@ -1,0 +1,77 @@
+{{ define "main" }}
+  {{- $lang := site.Language.Lang -}}
+  {{- $field := index hugo.Data.fields (.Params.field | default "") -}}
+  {{- $country := index hugo.Data.countries (.Params.country | default "") -}}
+  {{- $list := .Parent.RelPermalink -}}
+  <header class="wrap pt-block pb-block lg:pt-section">
+    <div class="flex flex-col gap-6 lg:w-3/4" data-reveal>
+      <p class="text-d-xs"><a class="nav-link" href="{{ $list }}">← {{ .Parent.Title }}</a></p>
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-2">
+        {{ with $field }}<a href="{{ $list }}?field={{ $.Params.field }}" class="display bg-blue px-2 pt-1 pb-0.5 text-sm transition-colors hover:bg-ink hover:text-cream">{{ index . $lang }}</a>{{ end }}
+        {{ with $country }}<a href="{{ $list }}?country={{ $.Params.country }}" class="link">{{ index . $lang }}</a>{{ end }}
+      </p>
+      <h1 class="display text-d-lg text-balance">{{ .Title }}</h1>
+      {{ with .Params.summary }}<p class="max-w-3xl text-lg">{{ . }}</p>{{ end }}
+    </div>
+  </header>
+
+  <div class="wrap grid-12">
+    <div class="col-span-12 flex flex-col gap-block lg:col-span-8">
+      {{ with .Content }}
+        <section data-reveal>
+          <h2 class="display mb-6 text-d-sm">{{ T "projectAbstract" }}</h2>
+          <div class="prose-zv max-w-none">{{ . }}</div>
+        </section>
+      {{ end }}
+      {{- /* Recorded talk: a YouTube or Vimeo link in `video`. */ -}}
+      {{ with .Params.video }}
+        <section data-reveal>
+          <h2 class="display mb-6 text-d-sm">{{ T "projectVideo" }}</h2>
+          {{ $id := "" }}
+          {{ with findRESubmatch `(?:youtu\.be/|v=|embed/)([\w-]{11})` . 1 }}{{ $id = index (index . 0) 1 }}{{ end }}
+          {{ if $id }}
+            <div class="aspect-video w-full bg-ink"><iframe class="h-full w-full" src="https://www.youtube-nocookie.com/embed/{{ $id }}" title="{{ $.Title }}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+          {{ else }}
+            <p><a class="btn btn-secondary" href="{{ . }}" rel="noopener" target="_blank">{{ T "projectVideo" }} ↗</a></p>
+          {{ end }}
+        </section>
+      {{ end }}
+    </div>
+
+    <aside class="col-span-12 lg:col-span-4" data-reveal>
+      <dl class="flex flex-col gap-5 bg-yellow p-6 lg:p-8">
+        {{ with .Params.students }}
+          <div><dt class="display text-d-xs">{{ T "projectStudents" }}</dt><dd class="mt-1">{{ delimit . ", " }}</dd></div>
+        {{ end }}
+        {{ with $country }}
+          <div><dt class="display text-d-xs">{{ T "projectsCountry" }}</dt><dd class="mt-1">{{ index . $lang }}</dd></div>
+        {{ end }}
+        {{ with .Params.school }}
+          <div><dt class="display text-d-xs">{{ T "projectSchool" }}</dt><dd class="mt-1">{{ . }}</dd></div>
+        {{ end }}
+        {{ with $field }}
+          <div><dt class="display text-d-xs">{{ T "projectsField" }}</dt><dd class="mt-1">{{ index . $lang }}</dd></div>
+        {{ end }}
+        {{- /* Optional contact the student agreed to publish. */ -}}
+        {{ with .Params.contact }}
+          <div><dt class="display text-d-xs">{{ T "projectContact" }}</dt><dd class="mt-1">{{ $href := cond (strings.Contains . "@") (printf "mailto:%s" .) . }}<a class="underline decoration-2 underline-offset-4 hover:no-underline" href="{{ $href }}">{{ . }}</a></dd></div>
+        {{ end }}
+        {{ with .Params.poster }}
+          <div class="pt-2"><a class="btn btn-dark" href="{{ . }}" download>{{ T "projectPoster" }} ↓</a></div>
+        {{ end }}
+      </dl>
+    </aside>
+  </div>
+
+  {{- $related := where (where .Parent.Pages "Params.field" .Params.field) "RelPermalink" "!=" .RelPermalink -}}
+  {{ with first 3 $related }}
+    <section class="wrap pt-section">
+      {{ partial "section-heading.html" (dict "kicker" (index $field $lang) "title" (T "projectRelated") "class" "mb-block") }}
+      <ul class="grid grid-cols-12 gap-gutter">
+        {{ range $i, $p := . }}
+          <li class="col-span-12 sm:col-span-6 lg:col-span-4" data-reveal style="--reveal-delay: {{ mul $i 90 }}ms">{{ partial "project-card.html" $p }}</li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+{{ end }}

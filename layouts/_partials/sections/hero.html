@@ -1,0 +1,23 @@
+{{- /* Homepage hero: headline, key info, CTAs + the animated, clickable
+       interference pattern. Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap grid-12 items-end pt-block">
+  <div class="col-span-12 flex flex-col gap-10 lg:col-span-7">
+    <h1 class="display text-d-xl text-balance">{{ $s.headline }}</h1>
+    <p class="display inline-flex flex-wrap gap-x-6 gap-y-1 self-start bg-blue px-5 pt-3.5 pb-3 text-d-sm">
+      <span>{{ partial "event-dates.html" . }}</span><span>{{ T "city" }}</span>
+    </p>
+    {{ with $s.lead }}<p class="max-w-2xl text-lg">{{ . }}</p>{{ end }}
+    {{ with $s.ctas }}
+      <div class="flex flex-wrap gap-4">
+        {{ range . }}
+          <a class="btn {{ if .primary }}btn-primary{{ else }}btn-secondary{{ end }}" href="{{ partial "link-to.html" .link }}">{{ .label }}</a>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+  <figure class="col-span-12 sm:col-span-8 sm:col-start-3 lg:col-span-5 lg:col-start-8">
+    {{ partial "pattern.html" (merge (dict "aspect" "4/5" "aspectMobile" "4/3" "cols" 24 "animate" true "interactive" true) ($s.pattern | default dict)) }}
+    <figcaption class="mt-3 text-sm">{{ T "patternHint" }}</figcaption>
+  </figure>
+</section>

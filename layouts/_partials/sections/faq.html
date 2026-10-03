@@ -1,0 +1,17 @@
+{{- /* Questions & answers as native disclosure widgets (no JS needed).
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap grid-12 pt-section">
+  {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "col-span-12 lg:col-span-4") }}
+  <div class="col-span-12 lg:col-span-8" data-reveal>
+    {{ range $s.items }}
+      <details class="group border-t-2 border-ink last:border-b-2">
+        <summary class="display flex cursor-pointer list-none items-start justify-between gap-6 py-5 text-d-xs [&::-webkit-details-marker]:hidden">
+          <span>{{ .q }}</span>
+          <span class="shrink-0 transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <div class="prose-zv max-w-none pb-6">{{ .a | $.page.RenderString }}</div>
+      </details>
+    {{ end }}
+  </div>
+</section>

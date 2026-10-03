@@ -1,0 +1,14 @@
+{{ define "main" }}
+  <section class="wrap grid-12 items-center pt-block lg:pt-section">
+    <div class="col-span-12 flex flex-col gap-8 md:col-span-6">
+      <p class="display text-d-xl">404</p>
+      <h1 class="display text-d-md text-balance">{{ T "notFoundTitle" }}</h1>
+      <p class="max-w-xl text-lg">{{ T "notFoundText" }}</p>
+      <p><a class="btn btn-primary" href="{{ site.Home.RelPermalink }}">{{ T "backHome" }}</a></p>
+    </div>
+    <figure class="col-span-12 md:col-span-6">
+      {{ partial "pattern.html" (dict "aspect" "1/1" "aspectMobile" "4/3" "cols" 20 "wavelengthYellow" 5 "wavelengthBlue" 8 "animate" true "interactive" true) }}
+      <figcaption class="mt-3 text-sm">{{ T "notFoundHint" }}</figcaption>
+    </figure>
+  </section>
+{{ end }}

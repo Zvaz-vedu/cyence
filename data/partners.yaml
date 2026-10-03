@@ -1,0 +1,17 @@
+# Partner tiers, in display order. Add partners as
+#   - { name: "Partner", logo: "/images/partners/partner.svg", url: "https://…" }
+# An empty tier shows "To be announced" tiles. `size: large` = two per row.
+tiers:
+  - id: general
+    size: large
+    name: { en: "General partner", cs: "Generální partner" }
+    partners: []
+  - id: main
+    name: { en: "Main partners", cs: "Hlavní partneři" }
+    partners: []
+  - id: institutional
+    name: { en: "Institutional partners", cs: "Institucionální partneři" }
+    partners: []
+  - id: media
+    name: { en: "Media partners", cs: "Mediální partneři" }
+    partners: []

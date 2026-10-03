@@ -1,0 +1,42 @@
+# Hugo comes from the hugo-extended npm package (pinned in package.json),
+# so Netlify and local builds always use the same version.
+[build]
+  command = "npm run build"
+  publish = "public"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[context.deploy-preview]
+  command = "npm run build -- --buildFuture -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy]
+  command = "npm run build -- -b $DEPLOY_PRIME_URL"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# "Roadshow" was renamed to "Public Day".
+[[redirects]]
+  from = "/roadshow/*"
+  to = "/public-day/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cs/roadshow/*"
+  to = "/cs/verejny-den/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cs/*"
+  to = "/cs/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

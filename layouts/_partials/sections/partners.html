@@ -1,0 +1,28 @@
+{{- /* Partner tiers from data/partners.yaml. Empty tiers show placeholder
+       tiles, so the structure is visible before partners are announced.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $lang := site.Language.Lang -}}
+{{- range hugo.Data.partners.tiers -}}
+  {{- $large := eq .size "large" -}}
+<section class="wrap pt-section">
+  {{ partial "section-heading.html" (dict "title" (index .name $lang) "class" "mb-block") }}
+  <ul class="grid grid-cols-12 gap-gutter">
+    {{ range $p := .partners }}
+      <li class="{{ if $large }}col-span-12 md:col-span-6{{ else }}col-span-6 md:col-span-4 lg:col-span-3{{ end }}" data-reveal>
+        <a href="{{ .url }}" class="flex aspect-[3/2] items-center justify-center border-2 border-ink p-8 transition-colors hover:bg-ink" rel="noopener" target="_blank" title="{{ .name }}">
+          {{ with $p.logo }}<img src="{{ . }}" alt="{{ $p.name }}" class="max-h-full max-w-full object-contain">{{ else }}<span class="display text-d-sm">{{ $p.name }}</span>{{ end }}
+        </a>
+      </li>
+    {{ else }}
+      {{ range seq (cond $large 2 4) }}
+        <li class="{{ if $large }}col-span-12 md:col-span-6{{ else }}col-span-6 md:col-span-4 lg:col-span-3{{ end }}" data-reveal>
+          <div class="flex aspect-[3/2] items-center justify-center border-2 border-dashed border-ink p-6 text-center">
+            <span class="display text-d-xs">{{ T "partnerSoon" }}</span>
+          </div>
+        </li>
+      {{ end }}
+    {{ end }}
+  </ul>
+</section>
+{{- end -}}

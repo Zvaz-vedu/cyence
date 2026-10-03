@@ -1,0 +1,21 @@
+{{- /* News card. An item links to its own page when it has body text,
+       otherwise to `link` (registration, external article, …).
+       Context: the news page. */ -}}
+{{- $href := .RelPermalink -}}
+{{- $external := false -}}
+{{- if and .Params.link (not .Content) -}}
+  {{- $href = partial "link-to.html" .Params.link -}}
+  {{- $external = hasPrefix $href "http" -}}
+{{- end -}}
+{{- /* Hover: the card turns black, accents switch to yellow. */ -}}
+<article class="group relative flex h-full flex-col gap-4 border-2 border-ink p-5 transition-colors hover:bg-ink hover:text-cream">
+  <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+    {{ with .Params.category }}<span class="display bg-ink px-2 pt-1 pb-0.5 text-cream transition-colors group-hover:bg-yellow group-hover:text-ink">{{ T (printf "newsCategory.%s" .) }}</span>{{ end }}
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+  </p>
+  <h3 class="display text-d-sm text-balance">
+    <a href="{{ $href }}" class="after:absolute after:inset-0" {{ if $external }}rel="noopener" target="_blank"{{ end }}>{{ .Title }}</a>
+  </h3>
+  {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
+  <p class="display mt-auto pt-2 text-d-xs transition-colors group-hover:text-yellow">{{ .Params.cta | default (T "readMore") }} {{ if $external }}↗{{ else }}→{{ end }}</p>
+</article>

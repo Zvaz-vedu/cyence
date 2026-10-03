@@ -1,0 +1,71 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  {{- $lang := site.Language.Lang -}}
+  {{- $projects := .Pages.ByTitle -}}
+  {{ with $projects }}
+    {{- /* Only offer filters for countries and fields that actually occur. */ -}}
+    {{- $countryCodes := slice -}}
+    {{- $fieldKeys := slice -}}
+    {{- range . -}}
+      {{- with .Params.country }}{{ $countryCodes = $countryCodes | append . }}{{ end -}}
+      {{- with .Params.field }}{{ $fieldKeys = $fieldKeys | append . }}{{ end -}}
+    {{- end -}}
+    {{- $countries := slice -}}
+    {{- range uniq $countryCodes -}}
+      {{- $code := . -}}
+      {{- with index hugo.Data.countries $code }}{{ $countries = $countries | append (dict "code" $code "name" (index . $lang)) }}{{ end -}}
+    {{- end -}}
+
+    <div class="wrap" data-projects
+         data-count-template="{{ T "projectsCount" }}"
+         data-total="{{ len . }}">
+      <form class="grid grid-cols-12 items-end gap-gutter gap-y-6" role="search" onsubmit="return false" data-project-filters>
+        <label class="col-span-12 flex flex-col gap-2 md:col-span-6">
+          <span class="display text-d-xs">{{ T "projectsSearch" }}</span>
+          <input type="search" name="q" autocomplete="off" placeholder="{{ T "projectsSearchPlaceholder" }}"
+                 class="w-full border-2 border-ink bg-cream px-4 py-3 placeholder:text-ink">
+        </label>
+        <label class="col-span-12 flex flex-col gap-2 sm:col-span-6 md:col-span-3">
+          <span class="display text-d-xs">{{ T "projectsCountry" }}</span>
+          <select name="country" class="w-full appearance-none border-2 border-ink bg-cream bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 10 10%22><path d=%22M0 2h10L5 8z%22 fill=%22%23231f20%22/></svg>')] bg-[length:0.75rem] bg-[position:right_1rem_center] bg-no-repeat px-4 py-3 pr-10">
+            <option value="">{{ T "projectsAllCountries" }}</option>
+            {{ range sort $countries "name" }}<option value="{{ .code }}">{{ .name }}</option>{{ end }}
+          </select>
+        </label>
+        <div class="col-span-12 flex items-center justify-between gap-4 sm:col-span-6 md:col-span-3 md:pb-3">
+          <p aria-live="polite" data-project-count>{{ replace (T "projectsCount") "{n}" (string (len .)) | replaceRE "\\{total\\}" (string (len .)) }}</p>
+          <button type="reset" class="nav-link text-d-xs">{{ T "projectsReset" }}</button>
+        </div>
+        <fieldset class="col-span-12 flex flex-wrap gap-2">
+          <legend class="display mb-3 text-d-xs">{{ T "projectsField" }}</legend>
+          {{ $chip := "btn btn-secondary cursor-pointer px-4 py-2.5 text-sm has-checked:bg-ink has-checked:text-cream has-focus-visible:outline-3 has-focus-visible:outline-offset-3 has-focus-visible:outline-ink" }}
+          <label class="{{ $chip }}"><input class="sr-only" type="radio" name="field" value="" checked>{{ T "projectsAllFields" }}</label>
+          {{ range $key, $f := hugo.Data.fields }}
+            {{ if in $fieldKeys $key }}
+              <label class="{{ $chip }}"><input class="sr-only" type="radio" name="field" value="{{ $key }}">{{ index $f $lang }}</label>
+            {{ end }}
+          {{ end }}
+        </fieldset>
+      </form>
+
+      <ul class="mt-block grid grid-cols-12 gap-gutter" data-project-list>
+        {{ range $i, $p := . }}
+          {{- $country := index hugo.Data.countries ($p.Params.country | default "") -}}
+          {{- $field := index hugo.Data.fields ($p.Params.field | default "") -}}
+          <li class="col-span-12 sm:col-span-6 lg:col-span-4" data-reveal style="--reveal-delay: {{ mul (mod $i 3) 90 }}ms"
+              data-country="{{ $p.Params.country }}" data-field="{{ $p.Params.field }}"
+              data-search="{{ $p.Title }} {{ delimit ($p.Params.students | default slice) " " }} {{ $p.Params.school }} {{ with $country }}{{ .en }} {{ .cs }}{{ end }} {{ with $field }}{{ .en }} {{ .cs }}{{ end }} {{ $p.Params.summary }}">
+            {{ partial "project-card.html" $p }}
+          </li>
+        {{ end }}
+      </ul>
+      <div class="mt-block flex flex-col items-start gap-4" hidden data-project-empty>
+        <p class="display text-d-sm">{{ T "projectsNone" }}</p>
+        <button type="button" class="btn btn-secondary" data-project-reset>{{ T "projectsReset" }}</button>
+      </div>
+    </div>
+  {{ else }}
+    <div class="wrap"><p class="max-w-2xl text-lg">{{ T "projectsComingSoon" }}</p></div>
+  {{ end }}
+  {{ partial "sections.html" . }}
+{{ end }}

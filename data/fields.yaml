@@ -1,0 +1,10 @@
+# Research fields used to tag and filter projects (`field:` in a project).
+biology: { en: "Biology", cs: "Biologie" }
+chemistry: { en: "Chemistry", cs: "Chemie" }
+physics: { en: "Physics & Astronomy", cs: "Fyzika a astronomie" }
+mathematics: { en: "Mathematics", cs: "Matematika" }
+computer-science: { en: "Computer Science", cs: "Informatika" }
+engineering: { en: "Engineering", cs: "Technika" }
+earth-environment: { en: "Earth & Environment", cs: "Země a životní prostředí" }
+medicine: { en: "Medicine & Health", cs: "Medicína a zdraví" }
+social-sciences: { en: "Social Sciences", cs: "Společenské vědy" }

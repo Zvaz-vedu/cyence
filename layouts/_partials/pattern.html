@@ -1,0 +1,44 @@
+{{- /* Interference pattern rectangle: a yellow and a blue wave source, black
+       where their crests overlap, cream background. Always an unrotated
+       rectangle of whole cells; the height snaps to whole rows.
+       Context: dict
+         "class"            – classes for the wrapper (grid placement, etc.)
+         "aspect"           – width/height like CSS, e.g. "3/4" (default "4/3")
+         "aspectMobile"     – optional aspect below 768 px, e.g. "4/3"
+         "cols"             – number of columns (default 24)
+         "wavelengthYellow", "wavelengthBlue" – in cells
+         "dutyYellow", "dutyBlue"             – crest share of a wavelength, 0–1
+         "speed", "outside", "seed"
+         "animate"          – bool (default false)
+         "runFor"           – seconds to play after scrolling into view, then freeze
+         "match"            – id of a side-by-side element to match in height
+         "interactive"      – bool, click moves a source (default false) */ -}}
+{{- $aspect := .aspect | default "4/3" -}}
+{{- /* Hugo lowercases front-matter keys, so accept both spellings; the
+       lowercase (content) value wins over a camelCase template default. */ -}}
+{{- $wy := or .wavelengthyellow .wavelengthYellow -}}
+{{- $wb := or .wavelengthblue .wavelengthBlue -}}
+{{- $dy := or .dutyyellow .dutyYellow -}}
+{{- $db := or .dutyblue .dutyBlue -}}
+{{- $am := or .aspectmobile .aspectMobile -}}
+{{- $rf := or .runfor .runFor -}}
+<div class="relative overflow-hidden {{ .class }}"
+     style="aspect-ratio: {{ $aspect | safeCSS }}"
+     data-pattern
+     data-aspect="{{ $aspect }}"
+     {{ with $am }}data-aspect-mobile="{{ . }}"{{ end }}
+     data-cols="{{ .cols | default 24 }}"
+     {{ with $wy }}data-wavelength-yellow="{{ . }}"{{ end }}
+     {{ with $wb }}data-wavelength-blue="{{ . }}"{{ end }}
+     {{ with $dy }}data-duty-yellow="{{ . }}"{{ end }}
+     {{ with $db }}data-duty-blue="{{ . }}"{{ end }}
+     {{ with .speed }}data-speed="{{ . }}"{{ end }}
+     {{ with .outside }}data-outside="{{ . }}"{{ end }}
+     {{ with .seed }}data-seed="{{ . }}"{{ end }}
+     {{ with $rf }}data-run-for="{{ . }}"{{ end }}
+     {{ with .match }}data-match="{{ . }}"{{ end }}
+     data-animate="{{ .animate | default false }}"
+     data-interactive="{{ .interactive | default false }}"
+     role="presentation">
+  <canvas></canvas>
+</div>

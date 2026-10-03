@@ -1,0 +1,27 @@
+{{- /* Team grid from data/team.yaml (or the block's own `people`). Without a
+       photo, each person gets their own small still interference pattern.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $lang := site.Language.Lang -}}
+{{- $groups := $s.groups | default hugo.Data.team.groups -}}
+{{- range $g, $group := $groups -}}
+<section class="wrap pt-section">
+  {{ partial "section-heading.html" (dict "kicker" (cond (eq $g 0) $s.kicker "") "title" (index $group.name $lang) "class" "mb-block") }}
+  <ul class="grid grid-cols-12 gap-gutter gap-y-block">
+    {{ range $i, $p := $group.people }}
+      <li class="col-span-6 flex flex-col gap-4 md:col-span-4 lg:col-span-3" data-reveal style="--reveal-delay: {{ mul (mod $i 4) 90 }}ms">
+        {{ with $p.photo }}
+          <img src="{{ . }}" alt="" class="aspect-square w-full object-cover" loading="lazy">
+        {{ else }}
+          {{ partial "pattern.html" (dict "aspect" "1/1" "cols" 12 "wavelengthYellow" 3.5 "wavelengthBlue" 5.5 "seed" (add (mul $g 50) $i 7)) }}
+        {{ end }}
+        <div class="flex flex-col gap-1">
+          <p class="display text-d-xs">{{ $p.name }}</p>
+          {{ with $p.role }}<p class="text-sm">{{ index . $lang }}</p>{{ end }}
+          {{ with $p.email }}<p class="text-sm"><a class="link" href="mailto:{{ . }}">{{ . }}</a></p>{{ end }}
+        </div>
+      </li>
+    {{ end }}
+  </ul>
+</section>
+{{- end -}}

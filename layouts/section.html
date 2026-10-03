@@ -1,0 +1,28 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  {{ with .Content }}
+    <div class="wrap grid-12 pb-block">
+      <div class="prose-zv col-span-12 lg:col-span-9 lg:col-start-4">{{ . }}</div>
+    </div>
+  {{ end }}
+  {{ with .Params.before }}{{ partial "sections.html" (dict "page" $ "list" .) }}{{ end }}
+  {{ with .Pages }}
+    <div class="wrap {{ if $.Params.before }}pt-section{{ end }}">
+      <ul class="grid grid-cols-12 gap-gutter">
+        {{ range $i, $p := . }}
+          <li class="col-span-12 sm:col-span-6 lg:col-span-3" data-reveal style="--reveal-delay: {{ mul $i 90 }}ms">
+            <a href="{{ $p.RelPermalink }}" class="group flex h-full flex-col border-2 border-ink transition-colors hover:bg-ink hover:text-cream">
+              {{ partial "pattern.html" (dict "aspect" "4/3" "cols" 16 "wavelengthYellow" 4 "wavelengthBlue" 6.5 "seed" (add 101 $i)) }}
+              <span class="flex flex-1 flex-col gap-4 p-5">
+                <span class="display text-d-sm">{{ $p.Title }}</span>
+                {{ with $p.Params.lead }}<span>{{ . }}</span>{{ end }}
+                <span class="display mt-auto text-d-xs transition-colors group-hover:text-yellow">{{ T "readMore" }} →</span>
+              </span>
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+  {{ partial "sections.html" . }}
+{{ end }}

@@ -1,0 +1,26 @@
+{{- /* Latest news as a horizontally scrollable strip of cards (4 visible on
+       desktop) with previous/next buttons. Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $section := site.GetPage "/news" -}}
+{{- $items := first ($s.limit | default 8) $section.Pages.ByDate.Reverse -}}
+{{- with $items -}}
+<section class="pt-section" data-carousel>
+  <div class="wrap flex flex-wrap items-end justify-between gap-6">
+    {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title) }}
+    <div class="flex items-center gap-3">
+      <a class="nav-link mr-3 text-d-xs" href="{{ $section.RelPermalink }}">{{ T "allNews" }}</a>
+      <button type="button" class="btn btn-secondary px-4" data-carousel-prev aria-label="{{ T "previous" }}">←</button>
+      <button type="button" class="btn btn-secondary px-4" data-carousel-next aria-label="{{ T "next" }}">→</button>
+    </div>
+  </div>
+  <div class="wrap mt-block">
+    <ul class="-mx-1 flex snap-x snap-mandatory gap-gutter overflow-x-auto px-1 pb-4 [scrollbar-width:none]" data-carousel-track>
+      {{ range $i, $p := . }}
+        <li class="w-[85%] shrink-0 snap-start sm:w-[calc((100%-var(--spacing-gutter))/2)] lg:w-[calc((100%-3*var(--spacing-gutter))/4)]" data-reveal style="--reveal-delay: {{ mul (math.Min $i 3) 90 }}ms">
+          {{ partial "news-card.html" $p }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</section>
+{{- end -}}

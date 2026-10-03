@@ -1,0 +1,10 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  <div class="wrap">
+    <ul class="grid grid-cols-12 gap-gutter">
+      {{ range .Pages.ByDate.Reverse }}
+        <li class="col-span-12 sm:col-span-6 lg:col-span-4" data-reveal>{{ partial "news-card.html" . }}</li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}

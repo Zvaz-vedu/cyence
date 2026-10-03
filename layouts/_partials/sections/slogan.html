@@ -1,0 +1,9 @@
+{{- /* A big statement that separates longer parts of a page. Wrap words in
+       *asterisks* to underline them with a thick marker stroke.
+       Context: dict "page" "s" ("text", "color": yellow|blue, "align": center|left) */ -}}
+{{- $s := .s -}}
+<section class="wrap pt-section">
+  <p class="slogan display text-[clamp(2.75rem,1.4rem+5.4vw,7.5rem)] leading-[0.95] text-balance {{ if eq $s.align "left" }}text-left{{ else }}text-center{{ end }} {{ if eq $s.color "blue" }}slogan-blue{{ end }}" data-reveal>
+    {{ $s.text | $.page.RenderString }}
+  </p>
+</section>

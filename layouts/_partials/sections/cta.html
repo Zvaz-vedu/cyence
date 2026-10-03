@@ -1,0 +1,20 @@
+{{- /* Call to action: a yellow panel ("act") next to a live, clickable
+       interference pattern, within the page grid. The pattern matches the
+       panel's height in whole cells. Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $id := printf "cta-%s" (.s.title | md5 | truncate 8 "") -}}
+<section class="wrap pt-section">
+  <div class="grid grid-cols-1 items-start md:grid-cols-2" data-reveal>
+    <div id="{{ $id }}" class="flex flex-col justify-center gap-8 bg-yellow p-6 sm:p-10 lg:p-14">
+      {{ with $s.kicker }}<p class="display text-d-xs">{{ . }}</p>{{ end }}
+      <h2 class="display text-d-lg text-balance">{{ $s.title }}</h2>
+      {{ with $s.text }}<p class="max-w-xl text-lg">{{ . }}</p>{{ end }}
+      {{ with $s.button }}
+        <p><a class="btn btn-dark text-d-sm" href="{{ partial "link-to.html" .link }}">{{ .label }} →</a></p>
+      {{ end }}
+    </div>
+    <div>
+      {{ partial "pattern.html" (merge (dict "aspect" "1/1" "aspectMobile" "4/3" "cols" 20 "wavelengthYellow" 5 "wavelengthBlue" 8 "animate" true "interactive" true "match" $id) ($s.pattern | default dict)) }}
+    </div>
+  </div>
+</section>

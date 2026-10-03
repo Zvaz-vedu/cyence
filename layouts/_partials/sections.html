@@ -1,0 +1,14 @@
+{{- /* Renders a list of blocks; each item's `type` picks a partial in
+       _partials/sections/. Context: the page (renders its `sections`), or
+       dict "page" "list" for another list such as `before`. */ -}}
+{{- $page := . -}}
+{{- $list := .Params.sections -}}
+{{- if reflect.IsMap . -}}{{- $page = .page -}}{{- $list = .list -}}{{- end -}}
+{{- range $list -}}
+  {{- $tpl := printf "sections/%s.html" .type -}}
+  {{- if templates.Exists (printf "_partials/%s" $tpl) -}}
+    {{- partial $tpl (dict "page" $page "s" .) -}}
+  {{- else -}}
+    {{- warnf "Unknown section type %q on %s" .type $page.File.Path -}}
+  {{- end -}}
+{{- end -}}

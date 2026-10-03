@@ -1,0 +1,21 @@
+{{- /* Downloadable files (press kit, logos). File size is read from disk.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap grid-12 pt-section">
+  {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "col-span-12 lg:col-span-4") }}
+  <ul class="col-span-12 lg:col-span-8">
+    {{ range $s.items }}
+      {{ $size := "" }}
+      {{ with os.Stat (printf "static%s" .file) }}{{ $size = printf "%.0f kB" (div (float .Size) 1024) }}{{ end }}
+      <li class="border-t-2 border-ink last:border-b-2" data-reveal>
+        <a href="{{ .file }}" download class="group flex items-center justify-between gap-6 py-5 transition-colors hover:bg-ink hover:text-cream hover:px-4">
+          <span class="flex flex-col gap-1">
+            <span class="display text-d-xs">{{ .label }}</span>
+            {{ with .text }}<span class="text-sm">{{ . }}</span>{{ end }}
+          </span>
+          <span class="display shrink-0 text-sm">{{ .format }}{{ with $size }} · {{ . }}{{ end }} ↓</span>
+        </a>
+      </li>
+    {{ end }}
+  </ul>
+</section>

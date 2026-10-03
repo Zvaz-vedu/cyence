@@ -1,0 +1,41 @@
+{{- /* Day-by-day programme. Each day: date, title, optional `text`, items
+       with time / title / text / place, and an optional `link` button.
+       Days marked `highlight: true` get a blue date block.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap pt-section">
+  {{ with $s.title }}{{ partial "section-heading.html" (dict "kicker" $s.kicker "title" . "class" "mb-block") }}{{ end }}
+  {{ with $s.note }}<p class="mb-block max-w-3xl border-l-4 border-yellow pl-4">{{ . }}</p>{{ end }}
+  <ol class="flex flex-col">
+    {{ range $i, $day := $s.days }}
+      {{ $date := time $day.date }}
+      <li class="grid grid-cols-12 gap-x-gutter gap-y-6 border-t-2 border-ink py-8 lg:py-10" data-reveal>
+        <div class="col-span-12 md:col-span-4 lg:col-span-3">
+          <p class="display inline-flex flex-col px-4 pt-3 pb-2.5 {{ if $day.highlight }}bg-blue{{ else }}bg-ink text-cream{{ end }}">
+            <span class="text-d-xs">{{ $date | time.Format "Monday" }}</span>
+            <span class="text-d-md">{{ $date | time.Format (cond (eq site.Language.Lang "cs") "2. 1." "2 Jan") }}</span>
+          </p>
+        </div>
+        <div class="col-span-12 flex flex-col gap-6 md:col-span-8 lg:col-span-9">
+          <h3 class="display text-d-sm">{{ $day.title }}</h3>
+          {{ with $day.text }}<p class="max-w-2xl">{{ . }}</p>{{ end }}
+          {{ with $day.items }}
+            <ul class="flex flex-col gap-4">
+              {{ range . }}
+                {{- /* The time column only appears for items that have a time. */ -}}
+                <li class="{{ if .time }}grid grid-cols-[5.5rem_1fr] gap-x-4 sm:grid-cols-[7rem_1fr]{{ else }}border-l-4 border-yellow pl-4{{ end }}">
+                  {{ with .time }}<span class="display pt-0.5 text-d-xs">{{ . }}</span>{{ end }}
+                  <span class="flex flex-col gap-1">
+                    <span><strong>{{ .title }}</strong>{{ with .place }} · {{ . }}{{ end }}</span>
+                    {{ with .text }}<span>{{ . }}</span>{{ end }}
+                  </span>
+                </li>
+              {{ end }}
+            </ul>
+          {{ end }}
+          {{ with $day.link }}<p><a class="btn btn-primary" href="{{ partial "link-to.html" .link }}">{{ .label }} →</a></p>{{ end }}
+        </div>
+      </li>
+    {{ end }}
+  </ol>
+</section>

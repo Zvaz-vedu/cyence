@@ -1,0 +1,17 @@
+{{- /* Project card. Context: the project page. The data-* attributes are
+       used by the client-side filters on the Projects page. */ -}}
+{{- $lang := site.Language.Lang -}}
+{{- $field := index hugo.Data.fields (.Params.field | default "") -}}
+{{- $country := index hugo.Data.countries (.Params.country | default "") -}}
+<article class="group relative flex h-full flex-col gap-4 border-2 border-ink p-5 transition-colors hover:bg-ink hover:text-cream">
+  <p class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+    {{ with $field }}<span class="display bg-blue px-2 pt-1 pb-0.5 text-ink transition-colors group-hover:bg-yellow">{{ index . $lang }}</span>{{ end }}
+    {{ with $country }}<span>{{ index . $lang }}</span>{{ end }}
+  </p>
+  <h3 class="display text-d-xs text-balance lg:text-d-sm">
+    <a href="{{ .RelPermalink }}" class="after:absolute after:inset-0">{{ .Title }}</a>
+  </h3>
+  {{ with .Params.students }}<p><strong>{{ delimit . ", " }}</strong></p>{{ end }}
+  {{ with .Params.summary }}<p class="text-sm">{{ . }}</p>{{ end }}
+  <p class="display mt-auto pt-2 text-d-xs transition-colors group-hover:text-yellow">{{ T "readMore" }} →</p>
+</article>

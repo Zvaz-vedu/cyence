@@ -1,0 +1,15 @@
+{{- /* Page title area. On subpages the kicker defaults to a link back to the
+       parent section (e.g. "About" above "Brno"). Context: the page. */ -}}
+<header class="wrap pt-block pb-block lg:pt-section">
+  <div class="flex flex-col gap-6 lg:w-3/4" data-reveal>
+    {{ with .Params.kicker }}
+      <p class="display text-d-xs">{{ . }}</p>
+    {{ else }}
+      {{ with .Parent }}{{ if not .IsHome }}
+        <p class="text-d-xs"><a class="nav-link" href="{{ .RelPermalink }}">← {{ .Title }}</a></p>
+      {{ end }}{{ end }}
+    {{ end }}
+    <h1 class="display text-d-lg text-balance">{{ .Title }}</h1>
+    {{ with .Params.lead }}<p class="max-w-3xl text-lg">{{ . }}</p>{{ end }}
+  </div>
+</header>

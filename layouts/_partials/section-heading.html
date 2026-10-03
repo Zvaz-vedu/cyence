@@ -1,0 +1,7 @@
+{{- /* Kicker + heading used at the top of homepage/landing sections.
+       Context: dict "kicker" "title" "class" "tag" (default h2) */ -}}
+{{- $tag := .tag | default "h2" -}}
+<div class="flex flex-col gap-4 {{ .class }}" data-reveal>
+  {{ with .kicker }}<p class="display text-d-xs">{{ . }}</p>{{ end }}
+  {{ printf "<%s class=%q>" $tag "display text-d-md text-balance" | safeHTML }}{{ .title }}{{ printf "</%s>" $tag | safeHTML }}
+</div>

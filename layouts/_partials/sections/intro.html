@@ -1,0 +1,15 @@
+{{- /* Heading in the first third, text across the remaining two thirds.
+       `links` is a list of buttons (the first is drawn as primary if
+       `primary: true`). Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap grid-12 pt-section">
+  {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "col-span-12 lg:col-span-4") }}
+  <div class="col-span-12 flex flex-col gap-8 lg:col-span-8" data-reveal>
+    <div class="prose-zv max-w-none text-lg">{{ $s.text | $.page.RenderString }}</div>
+    {{ with $s.links }}
+      <p class="flex flex-wrap gap-4">
+        {{ range . }}<a class="btn {{ if .primary }}btn-primary{{ else }}btn-secondary{{ end }}" href="{{ partial "link-to.html" .link }}">{{ .label }}</a>{{ end }}
+      </p>
+    {{ end }}
+  </div>
+</section>

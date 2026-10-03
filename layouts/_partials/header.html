@@ -1,0 +1,62 @@
+{{- $page := . -}}
+<header class="wrap relative z-40 flex items-center justify-between gap-gutter py-5 lg:py-8" data-header>
+  <a href="{{ site.Home.RelPermalink }}" class="block shrink-0" aria-label="{{ T "home" }}">
+    {{ partial "logo.html" (dict "class" "h-12 w-auto lg:h-14") }}
+  </a>
+
+  {{/* Desktop navigation */}}
+  <nav class="hidden items-center gap-8 xl:flex" aria-label="{{ T "mainNav" }}">
+    <ul class="flex items-center gap-6 text-d-xs 2xl:gap-8">
+      {{- range site.Menus.main -}}
+        {{- $active := or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) -}}
+        <li class="relative" {{ if .HasChildren }}data-dropdown{{ end }}>
+          {{- if .HasChildren -}}
+            <button type="button" class="flex items-start gap-1.5" aria-expanded="false" aria-controls="sub-{{ .Identifier }}">
+              <span class="nav-link" {{ if $active }}data-active{{ end }}>{{ .Name }}</span>
+              <svg class="mt-[0.25em] size-2.5" viewBox="0 0 10 10" aria-hidden="true"><path d="M0 2h10L5 8z" fill="currentColor"/></svg>
+            </button>
+            <ul id="sub-{{ .Identifier }}" class="absolute top-full -left-5 mt-3 flex min-w-56 flex-col gap-4 border-2 border-ink bg-cream px-5 py-5" hidden>
+              {{- range .Children -}}
+                <li><a class="nav-link whitespace-nowrap" href="{{ .URL }}" {{ if $page.IsMenuCurrent "main" . }}aria-current="page"{{ end }}>{{ .Name }}</a></li>
+              {{- end -}}
+            </ul>
+          {{- else -}}
+            <a class="nav-link" href="{{ .URL }}" {{ if $active }}aria-current="page"{{ end }}>{{ .Name }}</a>
+          {{- end -}}
+        </li>
+      {{- end -}}
+    </ul>
+    {{ partial "lang-switch.html" (dict "page" $page "class" "text-d-xs") }}
+    {{ range site.Menus.cta }}<a class="btn btn-primary" href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+  </nav>
+
+  {{/* Mobile navigation */}}
+  <button type="button" class="nav-link display text-d-xs xl:hidden" aria-expanded="false" aria-controls="mobile-nav" data-menu-toggle>
+    <span data-label-closed>{{ T "menu" }}</span><span data-label-open hidden>{{ T "close" }}</span>
+  </button>
+</header>
+
+<div id="mobile-nav" class="fixed inset-0 z-30 overflow-y-auto bg-cream pt-24 xl:hidden" hidden data-mobile-nav>
+  <nav class="wrap flex min-h-full flex-col gap-10 pb-10" aria-label="{{ T "mainNav" }}">
+    <ul class="flex flex-col gap-5 text-d-md">
+      {{- range site.Menus.main -}}
+        <li>
+          {{- if .HasChildren -}}
+            <span class="display">{{ .Name }}</span>
+            <ul class="mt-4 flex flex-col gap-3 pl-4 text-d-sm">
+              {{- range .Children -}}
+                <li><a class="nav-link" href="{{ .URL }}" {{ if $page.IsMenuCurrent "main" . }}aria-current="page"{{ end }}>{{ .Name }}</a></li>
+              {{- end -}}
+            </ul>
+          {{- else -}}
+            <a class="nav-link" href="{{ .URL }}" {{ if $page.IsMenuCurrent "main" . }}aria-current="page"{{ end }}>{{ .Name }}</a>
+          {{- end -}}
+        </li>
+      {{- end -}}
+    </ul>
+    <div class="mt-auto flex flex-wrap items-center justify-between gap-6">
+      {{ range site.Menus.cta }}<a class="btn btn-primary" href="{{ .URL }}">{{ .Name }}</a>{{ end }}
+      {{ partial "lang-switch.html" (dict "page" $page "class" "text-d-sm") }}
+    </div>
+  </nav>
+</div>

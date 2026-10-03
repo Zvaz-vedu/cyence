@@ -1,0 +1,13 @@
+{
+  "name": "cyence-web",
+  "private": true,
+  "scripts": {
+    "dev": "hugo server --disableFastRender",
+    "build": "hugo --gc --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "hugo-extended": "^0.166.0",
+    "tailwindcss": "^4.3.3"
+  }
+}

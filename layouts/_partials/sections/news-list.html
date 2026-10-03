@@ -1,0 +1,16 @@
+{{- /* News items of one category (e.g. press releases) as cards.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $items := where (site.GetPage "/news").Pages "Params.category" $s.category -}}
+<section class="wrap pt-section">
+  {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "mb-block") }}
+  {{ with $items }}
+    <ul class="grid grid-cols-12 gap-gutter">
+      {{ range $i, $p := .ByDate.Reverse }}
+        <li class="col-span-12 sm:col-span-6 lg:col-span-4" data-reveal style="--reveal-delay: {{ mul (mod $i 3) 90 }}ms">{{ partial "news-card.html" $p }}</li>
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>{{ $s.empty }}</p>
+  {{ end }}
+</section>

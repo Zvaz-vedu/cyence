@@ -1,0 +1,8 @@
+{{- /* "5–12 September 2027" / "5.–12. září 2027" from site params */ -}}
+{{- $s := site.Params.dateStart | time -}}
+{{- $e := site.Params.dateEnd | time -}}
+{{- if eq site.Language.Lang "cs" -}}
+  {{- printf "%d.–%d. %s %d" $s.Day $e.Day (T (printf "monthGen%d" (int $e.Month))) $e.Year -}}
+{{- else -}}
+  {{- printf "%d–%d %s %d" $s.Day $e.Day ($e.Month.String) $e.Year -}}
+{{- end -}}

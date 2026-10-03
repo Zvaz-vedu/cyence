@@ -1,0 +1,60 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  {{- $m := hugo.Data.czechia -}}
+  {{- $pd := hugo.Data.publicday -}}
+  {{- $cs := eq site.Language.Lang "cs" -}}
+  {{- $cities := .Pages -}}
+  {{- $total := 0 -}}
+  {{- range $pd.stops -}}{{- $total = add $total .capacity -}}{{- end -}}
+  {{- $date := time $pd.date -}}
+
+  {{- /* Interactive map: clicking a black region (or a city button) shows
+         that city's panel; with nothing selected the general panel shows.
+         Without JS the city buttons are plain links to the city pages. */ -}}
+  <section class="wrap" data-pd>
+    <div class="grid grid-cols-12 items-start gap-gutter gap-y-block">
+      <div class="col-span-12 flex flex-col gap-8 lg:col-span-8" data-reveal>
+        {{ partial "czechia-map.html" (dict "interactive" true) }}
+        <ul class="flex flex-wrap gap-2" aria-label="{{ T "pdCities" }}">
+          {{ range $pd.stops }}
+            {{- $stop := . -}}
+            {{- with index (where $cities "Params.city" $stop.city) 0 -}}
+              <li><a href="{{ .RelPermalink }}" class="btn btn-secondary px-4 py-2.5 text-sm aria-pressed:bg-ink aria-pressed:text-cream" data-pd-select="{{ $stop.region }}" data-pd-city="{{ $stop.city }}" aria-pressed="false">{{ .Title }}</a></li>
+            {{- end -}}
+          {{ end }}
+        </ul>
+      </div>
+
+      <div class="col-span-12 lg:col-span-4" data-reveal style="--reveal-delay: 120ms" aria-live="polite">
+        <div class="flex flex-col gap-6 bg-yellow p-6 lg:p-8" data-pd-panel="general">
+          <p class="display text-d-xs">{{ $date | time.Format ":date_long" }}</p>
+          <h2 class="display text-d-md text-balance">{{ T "pdGeneralTitle" }}</h2>
+          <dl class="grid grid-cols-2 gap-x-4 gap-y-4">
+            <div><dt class="display text-d-xs">{{ T "pdCities" }}</dt><dd class="display text-d-sm">{{ len $pd.stops }}</dd></div>
+            <div><dt class="display text-d-xs">{{ T "pdTime" }}</dt><dd class="display text-d-sm">{{ $pd.time }}</dd></div>
+            <div class="col-span-2"><dt class="display text-d-xs">{{ T "pdAudience" }}</dt><dd>{{ replace (T "pdUpTo") "{n}" (lang.FormatNumber 0 $total) }}</dd></div>
+          </dl>
+          <p class="text-sm">{{ T "pdChooseCity" }}</p>
+        </div>
+
+        {{ range $pd.stops }}
+          {{- $stop := . -}}
+          {{- with index (where $cities "Params.city" $stop.city) 0 -}}
+            <div class="flex flex-col gap-6 bg-yellow p-6 lg:p-8" data-pd-panel="{{ $stop.region }}" hidden>
+              <p class="display text-d-xs">{{ $date | time.Format ":date_long" }} · {{ $pd.time }}</p>
+              <h2 class="display text-d-lg">{{ .Title }}</h2>
+              <dl class="flex flex-col gap-4">
+                <div><dt class="display text-d-xs">{{ T "pdVenue" }}</dt><dd>{{ if $stop.tentative }}{{ T "pdVenueTbc" }}{{ else }}{{ $stop.venue }}{{ end }}</dd></div>
+                <div><dt class="display text-d-xs">{{ T "pdAudience" }}</dt><dd>{{ replace (T "pdUpTo") "{n}" (lang.FormatNumber 0 $stop.capacity) }}</dd></div>
+              </dl>
+              {{ with .Params.lead }}<p>{{ . }}</p>{{ end }}
+              <p><a class="btn btn-dark" href="{{ .RelPermalink }}">{{ T "pdMoreAbout" }} {{ .Title }} →</a></p>
+            </div>
+          {{- end -}}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  {{ partial "sections.html" . }}
+{{ end }}

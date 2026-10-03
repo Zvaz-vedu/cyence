@@ -1,0 +1,51 @@
+# Country names by ISO 3166-1 alpha-2 code (`country:` in a project).
+AT: { en: "Austria", cs: "Rakousko" }
+BE: { en: "Belgium", cs: "Belgie" }
+BG: { en: "Bulgaria", cs: "Bulharsko" }
+BA: { en: "Bosnia and Herzegovina", cs: "Bosna a Hercegovina" }
+BR: { en: "Brazil", cs: "Brazílie" }
+CA: { en: "Canada", cs: "Kanada" }
+CH: { en: "Switzerland", cs: "Švýcarsko" }
+CN: { en: "China", cs: "Čína" }
+CY: { en: "Cyprus", cs: "Kypr" }
+CZ: { en: "Czech Republic", cs: "Česko" }
+DE: { en: "Germany", cs: "Německo" }
+DK: { en: "Denmark", cs: "Dánsko" }
+EE: { en: "Estonia", cs: "Estonsko" }
+ES: { en: "Spain", cs: "Španělsko" }
+FI: { en: "Finland", cs: "Finsko" }
+FR: { en: "France", cs: "Francie" }
+GB: { en: "United Kingdom", cs: "Spojené království" }
+GE: { en: "Georgia", cs: "Gruzie" }
+GR: { en: "Greece", cs: "Řecko" }
+HR: { en: "Croatia", cs: "Chorvatsko" }
+HU: { en: "Hungary", cs: "Maďarsko" }
+IE: { en: "Ireland", cs: "Irsko" }
+IL: { en: "Israel", cs: "Izrael" }
+IN: { en: "India", cs: "Indie" }
+IS: { en: "Iceland", cs: "Island" }
+IT: { en: "Italy", cs: "Itálie" }
+JP: { en: "Japan", cs: "Japonsko" }
+KR: { en: "South Korea", cs: "Jižní Korea" }
+LT: { en: "Lithuania", cs: "Litva" }
+LU: { en: "Luxembourg", cs: "Lucembursko" }
+LV: { en: "Latvia", cs: "Lotyšsko" }
+MD: { en: "Moldova", cs: "Moldavsko" }
+ME: { en: "Montenegro", cs: "Černá Hora" }
+MK: { en: "North Macedonia", cs: "Severní Makedonie" }
+MT: { en: "Malta", cs: "Malta" }
+MX: { en: "Mexico", cs: "Mexiko" }
+NL: { en: "Netherlands", cs: "Nizozemsko" }
+"NO": { en: "Norway", cs: "Norsko" }
+PL: { en: "Poland", cs: "Polsko" }
+PT: { en: "Portugal", cs: "Portugalsko" }
+RO: { en: "Romania", cs: "Rumunsko" }
+RS: { en: "Serbia", cs: "Srbsko" }
+SE: { en: "Sweden", cs: "Švédsko" }
+SG: { en: "Singapore", cs: "Singapur" }
+SI: { en: "Slovenia", cs: "Slovinsko" }
+SK: { en: "Slovakia", cs: "Slovensko" }
+TR: { en: "Turkey", cs: "Turecko" }
+TW: { en: "Taiwan", cs: "Tchaj-wan" }
+UA: { en: "Ukraine", cs: "Ukrajina" }
+US: { en: "United States", cs: "Spojené státy" }

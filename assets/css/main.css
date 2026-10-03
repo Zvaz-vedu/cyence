@@ -1,0 +1,335 @@
+@import "tailwindcss";
+@source "hugo_stats.json";
+
+/* ---------------------------------------------------------------------------
+   Fonts – ZV! Display (headings, short texts, always ALL CAPS)
+           ZV! Regular / Bold (body text; Bold only for emphasis, same size)
+   --------------------------------------------------------------------------- */
+@font-face {
+  font-family: "ZV Display";
+  src: url("/fonts/zv-display.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ZV";
+  src: url("/fonts/zv-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ZV";
+  src: url("/fonts/zv-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
+   Design tokens. The brand palette is the ONLY palette – Tailwind's default
+   colours are removed so nothing else can slip in. No dark mode.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-*: initial;
+  --color-cream: #f2ede6;
+  --color-ink: #231f20;
+  --color-yellow: #ffc300;
+  --color-blue: #00aeef;
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-*: initial;
+  --font-display: "ZV Display", "Arial Narrow", sans-serif;
+  --font-sans: "ZV", "Arial", sans-serif;
+
+  /* Fluid type scale. Display sizes are for ALL CAPS ZV! Display. */
+  --text-*: initial;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.45;
+  --text-base: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+  --text-base--line-height: 1.55;
+  --text-lg: clamp(1.375rem, 1.15rem + 0.8vw, 1.875rem);
+  --text-lg--line-height: 1.45;
+  --text-d-xs: clamp(1.125rem, 1.05rem + 0.3vw, 1.375rem);
+  --text-d-xs--line-height: 1.1;
+  --text-d-sm: clamp(1.5rem, 1.3rem + 0.9vw, 2.25rem);
+  --text-d-sm--line-height: 1.05;
+  --text-d-md: clamp(2.25rem, 1.8rem + 2vw, 3.75rem);
+  --text-d-md--line-height: 1;
+  --text-d-lg: clamp(3rem, 2.2rem + 3.6vw, 6rem);
+  --text-d-lg--line-height: 0.95;
+  --text-d-xl: clamp(3.75rem, 2.4rem + 6vw, 9.5rem);
+  --text-d-xl--line-height: 0.92;
+
+  /* Layout */
+  --spacing-gutter: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+  --spacing-margin: clamp(1rem, 0.2rem + 3.6vw, 4rem);
+  --spacing-section: clamp(5rem, 3rem + 8vw, 11rem);
+  --spacing-block: clamp(2.5rem, 1.75rem + 3vw, 5rem);
+  --container-page: 112rem;
+
+  --breakpoint-xs: 30rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    color-scheme: light only;
+  }
+  html {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+    /* Only Regular, Bold and Display exist – never fake italics or weights. */
+    font-synthesis: none;
+  }
+  ::selection {
+    background-color: var(--color-yellow);
+    color: var(--color-ink);
+  }
+  strong, b {
+    font-weight: 700;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  /* Native form controls (sliders, checkboxes) in brand black, not browser blue */
+  input, select, textarea {
+    accent-color: var(--color-ink);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Layout: 12-column grid. Use halves / thirds / quarters
+   (col-span-6, -4, -3, and 8/4, 9/3 combinations).
+   --------------------------------------------------------------------------- */
+@utility wrap {
+  width: 100%;
+  max-width: var(--container-page);
+  margin-inline: auto;
+  padding-inline: var(--spacing-margin);
+}
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--spacing-gutter);
+  row-gap: var(--spacing-block);
+}
+
+/* ---------------------------------------------------------------------------
+   Typography helpers
+   --------------------------------------------------------------------------- */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  font-kerning: normal;
+}
+
+/* Long-form content rendered from Markdown */
+@utility prose-zv {
+  max-width: 44rem;
+
+  & > * + * {
+    margin-top: 1.25em;
+  }
+  & h2, & h3, & h4 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  & h2 {
+    font-size: var(--text-d-sm);
+    line-height: var(--text-d-sm--line-height);
+    margin-top: 2.5em;
+  }
+  & h3 {
+    font-size: var(--text-d-xs);
+    line-height: var(--text-d-xs--line-height);
+    margin-top: 2em;
+  }
+  & h2 + *, & h3 + * {
+    margin-top: 0.9em;
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & a {
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2em;
+  }
+  & a:hover {
+    background-color: var(--color-blue);
+  }
+  & ul, & ol {
+    padding-left: 1.25em;
+  }
+  & ul {
+    list-style: square;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & li + li {
+    margin-top: 0.4em;
+  }
+  & li::marker {
+    color: var(--color-ink);
+  }
+  & blockquote {
+    border-left: 4px solid var(--color-yellow);
+    padding-left: 1em;
+  }
+  & hr {
+    border: 0;
+    border-top: 2px solid var(--color-ink);
+    margin-block: 2.5em;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+   --------------------------------------------------------------------------- */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: var(--text-d-xs);
+  line-height: 1;
+  padding: 0.85em 1.25em 0.8em;
+  border: 2px solid var(--color-ink);
+  transition: background-color 120ms, color 120ms;
+}
+@utility btn-primary {
+  background-color: var(--color-yellow);
+  color: var(--color-ink);
+  &:hover {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+}
+@utility btn-secondary {
+  background-color: transparent;
+  color: var(--color-ink);
+  &:hover {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+}
+@utility btn-dark {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  &:hover {
+    background-color: var(--color-blue);
+    color: var(--color-ink);
+  }
+}
+@utility link {
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.2em;
+  &:hover {
+    background-color: var(--color-blue);
+  }
+}
+
+/* Navigation links: an underline grows on hover and marks the current page.
+   The line sits just below the text (::after with a small margin), so the
+   spacing between stacked links comes from the list gap, not padding. */
+@utility nav-link {
+  display: inline-block;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 1;
+  &::after {
+    content: "";
+    display: block;
+    height: 2px;
+    width: 0;
+    margin-top: 0.15em;
+    background-color: var(--color-ink);
+    transition: width 150ms;
+  }
+  &:hover::after, &[aria-current="page"]::after, &[data-active]::after {
+    width: 100%;
+  }
+}
+
+/* Slogans: *emphasised* words get a thick marker stroke under them. */
+@utility slogan {
+  & em {
+    font-style: normal;
+    background-image: linear-gradient(transparent 62%, var(--color-yellow) 62%, var(--color-yellow) 90%, transparent 90%);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding-inline: 0.06em;
+  }
+}
+@utility slogan-blue {
+  & em {
+    background-image: linear-gradient(transparent 62%, var(--color-blue) 62%, var(--color-blue) 90%, transparent 90%);
+  }
+}
+
+/* Public Day map (publicday.js): host regions are clickable; hover and
+   selection turn the region blue and its city marker yellow. CSS fill
+   overrides the SVG fill attribute. */
+[data-pd] svg .stop,
+[data-pd] svg .marker,
+[data-pd] svg .label {
+  cursor: pointer;
+}
+[data-pd] svg .stop,
+[data-pd] svg .marker {
+  transition: fill 120ms;
+}
+[data-pd] svg .stop:is(.is-hover, .is-selected) {
+  fill: var(--color-blue);
+}
+[data-pd] svg .marker:is(.is-hover, .is-selected) {
+  fill: var(--color-yellow);
+}
+
+/* Scroll reveal: [data-reveal] elements stay hidden (layout kept) until
+   reveal.js assembles them from cells. Only with JS and when motion is
+   allowed. --reveal-delay staggers items in a group. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.is-revealed) {
+    visibility: hidden;
+  }
+}
+
+@media print {
+  [data-reveal] {
+    visibility: visible !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

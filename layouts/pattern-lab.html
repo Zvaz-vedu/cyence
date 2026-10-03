@@ -1,0 +1,91 @@
+{{ define "main" }}
+<div class="wrap grid-12 pt-block">
+  <header class="col-span-12">
+    <h1 class="display text-d-lg">Pattern lab</h1>
+    <p class="mt-4 max-w-3xl">Tune the interference pattern. Click inside the pattern to move a wave source there (yellow, then blue, …). Use <strong>Copy settings</strong> to send the values you like.</p>
+  </header>
+
+  <div class="col-span-12 lg:col-span-8">
+    <div id="lab-pattern" class="w-full"><canvas></canvas></div>
+    <p class="mt-4 text-sm" id="lab-info"></p>
+  </div>
+
+  <form id="lab-controls" class="col-span-12 flex flex-col gap-6 lg:col-span-4" onsubmit="return false">
+    <fieldset class="flex flex-col gap-3">
+      <legend class="display mb-3 text-d-xs">Presets</legend>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="btn btn-secondary text-sm" data-preset="renders">As renders</button>
+        <button type="button" class="btn btn-secondary text-sm" data-preset="calm">Calm</button>
+        <button type="button" class="btn btn-secondary text-sm" data-preset="calmer">Calmer</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="flex flex-col gap-4">
+      <legend class="display mb-3 text-d-xs">Shape</legend>
+      <label class="flex flex-col gap-1">
+        <span>Format</span>
+        <select name="aspect" class="border-2 border-ink bg-cream px-3 py-2">
+          <option value="16/9">16 : 9 – wide</option>
+          <option value="4/3">4 : 3</option>
+          <option value="1/1">1 : 1 – square</option>
+          <option value="3/4" selected>3 : 4 – poster</option>
+          <option value="9/16">9 : 16 – story</option>
+        </select>
+      </label>
+      <label class="flex flex-col gap-1">
+        <span>Columns (cell size) <output data-for="cols"></output></span>
+        <input type="range" name="cols" min="8" max="72" step="1">
+      </label>
+    </fieldset>
+
+    <fieldset class="flex flex-col gap-4">
+      <legend class="display mb-3 text-d-xs">Yellow wave</legend>
+      <label class="flex flex-col gap-1">
+        <span>Wavelength, in cells <output data-for="wavelengthYellow"></output></span>
+        <input type="range" name="wavelengthYellow" min="3" max="40" step="0.5">
+      </label>
+      <label class="flex flex-col gap-1">
+        <span>Crest width <output data-for="dutyYellow"></output></span>
+        <input type="range" name="dutyYellow" min="0.1" max="0.9" step="0.05">
+      </label>
+    </fieldset>
+
+    <fieldset class="flex flex-col gap-4">
+      <legend class="display mb-3 text-d-xs">Blue wave</legend>
+      <label class="flex flex-col gap-1">
+        <span>Wavelength, in cells <output data-for="wavelengthBlue"></output></span>
+        <input type="range" name="wavelengthBlue" min="3" max="40" step="0.5">
+      </label>
+      <label class="flex flex-col gap-1">
+        <span>Crest width <output data-for="dutyBlue"></output></span>
+        <input type="range" name="dutyBlue" min="0.1" max="0.9" step="0.05">
+      </label>
+    </fieldset>
+
+    <fieldset class="flex flex-col gap-4">
+      <legend class="display mb-3 text-d-xs">Motion</legend>
+      <label class="flex flex-col gap-1">
+        <span>Speed <output data-for="speed"></output></span>
+        <input type="range" name="speed" min="0" max="1.5" step="0.05">
+      </label>
+      <label class="flex flex-col gap-1">
+        <span>Chance one source is outside the frame <output data-for="outside"></output></span>
+        <input type="range" name="outside" min="0" max="1" step="0.1">
+      </label>
+    </fieldset>
+
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn btn-primary" id="lab-reseed">New sources</button>
+      <button type="button" class="btn btn-secondary" id="lab-play">Pause</button>
+      <button type="button" class="btn btn-secondary" id="lab-png">Export PNG</button>
+      <button type="button" class="btn btn-secondary" id="lab-copy">Copy settings</button>
+    </div>
+    <pre class="overflow-x-auto border-2 border-ink p-4 text-sm" id="lab-json"></pre>
+  </form>
+</div>
+{{ with resources.Get "js/lab.js" }}
+  {{ with . | js.Build (dict "minify" (not hugo.IsDevelopment) "format" "esm") | fingerprint }}
+    <script type="module" src="{{ .RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+{{ end }}

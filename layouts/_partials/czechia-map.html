@@ -1,0 +1,100 @@
+{{- /* Pixel map of Czechia built from data/czechia.json (96 × 56 cells).
+       Regions are outlined by 1-cell cream gaps (lower-case cells in the
+       data). Highlighted regions are black, the rest `fill` (default
+       yellow); Public Day cities are squares in the other accent colour.
+       Context: dict
+         "class"       – classes for the <svg>
+         "fill"        – "yellow" (default) | "blue"
+         "labels"      – bool, city labels (default true)
+         "focus"       – region code: only this region is black and only
+                         its city gets a marker (city pages)
+         "crop"        – cells of margin around the focus region; crops
+                         the map to that window (0 = whole country)
+         "isolate"     – bool: draw only the focus region, in blue with a
+                         yellow marker (the "selected" look of the main map)
+         "interactive" – bool: Public Day regions get class "stop" and,
+                         like the markers, data-region for publicday.js */ -}}
+{{- $m := hugo.Data.czechia -}}
+{{- $stops := hugo.Data.publicday.stops -}}
+{{- $colors := dict "yellow" "#ffc300" "blue" "#00aeef" -}}
+{{- $fillName := .fill | default "yellow" -}}
+{{- $fill := index $colors $fillName -}}
+{{- $marker := cond (eq $fillName "blue") "#ffc300" "#00aeef" -}}
+{{- $u := div (float $m.cols) 64 -}}{{/* marker/label scale relative to the 64-col design */}}
+{{- $interactive := .interactive | default false -}}
+{{- $focus := .focus | default "" -}}
+{{- $isolate := and $focus (.isolate | default false) -}}
+{{- if $isolate -}}{{- $marker = "#ffc300" -}}{{- end -}}
+
+{{- $active := slice -}}
+{{- if $focus -}}
+  {{- $active = slice $focus -}}
+  {{- $stops = where $stops "region" $focus -}}
+{{- else -}}
+  {{- range $stops -}}{{- $active = $active | append .region -}}{{- end -}}
+{{- end -}}
+
+{{- $codes := dict -}}
+{{- $focusBox := slice 0 0 $m.cols $m.rows -}}
+{{- range $char, $r := $m.regions -}}
+  {{- $codes = merge $codes (dict $char $r.code) -}}
+  {{- if eq $r.code $focus -}}{{- $focusBox = $r.bbox -}}{{- end -}}
+{{- end -}}
+
+{{- /* viewBox: whole country, or the focus region plus `crop` cells. */ -}}
+{{- $vb := slice 0 0 $m.cols $m.rows -}}
+{{- with .crop -}}
+  {{- $c := . -}}
+  {{- $x := math.Max 0 (sub (index $focusBox 0) $c) -}}
+  {{- $y := math.Max 0 (sub (index $focusBox 1) $c) -}}
+  {{- $x2 := math.Min $m.cols (add (index $focusBox 0) (index $focusBox 2) $c) -}}
+  {{- $y2 := math.Min $m.rows (add (index $focusBox 1) (index $focusBox 3) $c) -}}
+  {{- $vb = slice $x $y (sub $x2 $x) (sub $y2 $y) -}}
+{{- end -}}
+
+{{- $cs := eq site.Language.Lang "cs" -}}
+{{- $names := slice -}}
+{{- range $stops -}}{{- with index $m.cities .city -}}{{- $names = $names | append (cond $cs .nameCs .nameEn) -}}{{- end -}}{{- end -}}
+<svg class="block h-auto w-full {{ .class }}" viewBox="{{ delimit $vb " " }}" shape-rendering="crispEdges"
+     role="img" aria-label="{{ T "mapLabel" }}: {{ delimit $names ", " }}">
+  {{- range $j, $row := $m.grid -}}
+    {{- $chars := split $row "" -}}
+    {{- $start := 0 -}}
+    {{- $cur := index $chars 0 -}}
+    {{- range $i, $c := $chars | append "|" -}}
+      {{- if ne $c $cur -}}
+        {{- /* Upper case = region cell; "." outside; lower case = outline gap. */ -}}
+        {{- $code := index $codes (upper $cur) -}}
+        {{- if and (ne $cur ".") (eq $cur (upper $cur)) (or (not $isolate) (eq $code $focus)) -}}
+          {{- $isStop := in $active $code -}}
+          <rect x="{{ $start }}" y="{{ $j }}" width="{{ sub $i $start }}" height="1" data-region="{{ $code }}" fill="{{ if $isolate }}#00aeef{{ else }}{{ cond $isStop "#231f20" $fill }}{{ end }}"{{ if and $interactive $isStop }} class="stop"{{ end }}/>
+        {{- end -}}
+        {{- $start = $i -}}
+        {{- $cur = $c -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- range $stops -}}
+    {{- $region := .region -}}
+    {{- with index $m.cities .city -}}
+      {{- $s := 2 -}}{{/* marker size in cells */}}
+      <rect x="{{ sub .x (math.Floor (div $s 2)) }}" y="{{ sub .y (math.Floor (div $s 2)) }}" width="{{ $s }}" height="{{ $s }}" fill="{{ $marker }}"{{ if $interactive }} class="marker" data-region="{{ $region }}"{{ end }}/>
+      {{- if ne $.labels false -}}
+        {{- /* Label on a cream tag so it reads over black regions too; near
+               the right edge the tag goes to the left of the marker. */ -}}
+        {{- $label := upper (cond $cs .nameCs .nameEn) -}}
+        {{- $fs := mul 2.4 $u -}}
+        {{- /* Exact text width from the font (measured by tools/build-map.py)
+               plus an even padding on both sides. */ -}}
+        {{- $pad := mul 0.5 $u -}}
+        {{- $w := add (mul (cond $cs .widthCs .widthEn) $fs) (mul 2 $pad) -}}
+        {{- $h := mul 3 $u -}}
+        {{- $tx := cond (gt .x (sub $m.cols (mul 14 $u))) (sub .x (add $w $s)) (add .x $s) -}}
+        <g aria-hidden="true"{{ if $interactive }} class="label" data-region="{{ $region }}"{{ end }}>
+          <rect x="{{ $tx }}" y="{{ sub .y (div $h 2) }}" width="{{ $w }}" height="{{ $h }}" fill="#f2ede6"/>
+          <text x="{{ add $tx $pad }}" y="{{ add .y (mul 0.85 $u) }}" font-family="ZV Display, sans-serif" font-size="{{ $fs }}" fill="#231f20">{{ $label }}</text>
+        </g>
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+</svg>

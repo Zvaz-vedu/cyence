@@ -1,0 +1,9 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  {{ with .Content }}
+    <div class="wrap grid-12">
+      <div class="prose-zv col-span-12 lg:col-span-9 lg:col-start-4">{{ . }}</div>
+    </div>
+  {{ end }}
+  {{ partial "sections.html" . }}
+{{ end }}

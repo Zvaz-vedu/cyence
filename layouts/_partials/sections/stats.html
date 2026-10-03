@@ -1,0 +1,45 @@
+{{- /* Bento board of key numbers. Tiles by position:
+         1 – large yellow tile (half width, two rows)
+         2 – black tile
+         –   pattern tile (plays once on scroll, then eases to a halt)
+         3 – blue tile
+         4 – outlined tile
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- $items := $s.items -}}
+{{- define "_partials/inline/stats-tile.html" -}}
+  {{- /* Sized to the tile (container query) so it always fits one line. */ -}}
+  <p class="display text-[clamp(2.5rem,30cqi,9.5rem)] leading-[0.9] whitespace-nowrap">{{ .value }}</p>
+  <div class="flex flex-col gap-2">
+    <p class="display text-d-xs">{{ .label }}</p>
+    {{ with .text }}<p class="text-sm">{{ . }}</p>{{ end }}
+  </div>
+{{- end -}}
+<section class="wrap pt-section">
+  {{ with $s.title }}{{ partial "section-heading.html" (dict "kicker" $s.kicker "title" . "class" "mb-block") }}{{ end }}
+  <ul class="grid grid-cols-12 gap-gutter">
+    {{ with index $items 0 }}
+      <li class="col-span-12 flex min-h-80 flex-col justify-between gap-10 bg-yellow p-6 [container-type:inline-size] md:col-span-6 md:row-span-2 lg:p-8" data-reveal>
+        <p class="display text-[clamp(6rem,40cqi,16rem)] leading-[0.85] whitespace-nowrap">{{ .value }}</p>
+        <div class="flex flex-col gap-2">
+          <p class="display text-d-sm">{{ .label }}</p>
+          {{ with .text }}<p class="max-w-md">{{ . }}</p>{{ end }}
+        </div>
+      </li>
+    {{ end }}
+    {{ with index $items 1 }}
+      <li id="stats-ink" class="col-span-6 flex flex-col justify-between gap-8 self-start bg-ink p-6 text-cream [container-type:inline-size] md:col-span-3" data-reveal style="--reveal-delay: 90ms">
+        {{ partial "inline/stats-tile.html" . }}
+      </li>
+    {{ end }}
+    <li class="col-span-6 self-start md:col-span-3" data-reveal style="--reveal-delay: 180ms" aria-hidden="true">
+      {{ partial "pattern.html" (dict "aspect" "1/1" "cols" 16 "wavelengthYellow" 4 "wavelengthBlue" 6.5 "animate" true "runFor" 3 "match" "stats-ink") }}
+    </li>
+    {{ range $i, $item := after 2 $items }}
+      {{- /* Third tile blue, fourth outlined – every tile different. */ -}}
+      <li class="col-span-6 flex flex-col justify-between gap-8 p-6 [container-type:inline-size] md:col-span-3 {{ if eq $i 0 }}bg-blue{{ else }}border-2 border-ink{{ end }}" data-reveal style="--reveal-delay: {{ add 270 (mul $i 90) }}ms">
+        {{ partial "inline/stats-tile.html" $item }}
+      </li>
+    {{ end }}
+  </ul>
+</section>

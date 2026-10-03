@@ -1,0 +1,17 @@
+{{ define "main" }}
+  <header class="wrap grid-12 pt-block pb-block lg:pt-section">
+    <p class="col-span-12 flex flex-wrap items-center gap-x-3 gap-y-1">
+      {{ with .Params.category }}<span class="display bg-ink px-2 pt-1 pb-0.5 text-sm text-cream">{{ T (printf "newsCategory.%s" .) }}</span>{{ end }}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+    </p>
+    <h1 class="display col-span-12 -mt-6 text-d-lg text-balance lg:col-span-9">{{ .Title }}</h1>
+    {{ with .Params.summary }}<p class="col-span-12 text-lg md:col-span-8 lg:col-span-6">{{ . }}</p>{{ end }}
+  </header>
+  <div class="wrap grid-12">
+    <div class="prose-zv col-span-12 lg:col-span-9 lg:col-start-4">
+      {{ .Content }}
+      {{ with .Params.link }}<p><a class="btn btn-primary" href="{{ partial "link-to.html" . }}">{{ $.Params.cta | default (T "readMore") }}</a></p>{{ end }}
+    </div>
+    <p class="col-span-12 lg:col-start-4"><a class="nav-link text-d-xs" href="{{ .Parent.RelPermalink }}">← {{ T "allNews" }}</a></p>
+  </div>
+{{ end }}

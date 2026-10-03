@@ -1,0 +1,32 @@
+{{- /* Half visual, half text. The visual is a photo (`image`, with an
+       offset `frame` colour), the Czech map (`visual: map`) or – by default –
+       an interference pattern. "reverse" puts the visual on the right.
+       Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+{{- /* Section patterns play a few seconds when scrolled into view, then
+       freeze – so every visitor ends up with their own unique frame. */ -}}
+{{- $p := merge (dict "aspect" "1/1" "cols" 32 "wavelengthYellow" 4.5 "wavelengthBlue" 7 "animate" true "runFor" 3.5) ($s.pattern | default dict) -}}
+<section class="wrap grid-12 items-center pt-section">
+  <div class="col-span-12 md:col-span-6 {{ if $s.reverse }}md:order-2 md:col-start-7{{ end }}" data-reveal>
+    {{ if eq $s.visual "map" }}
+      {{ partial "czechia-map.html" (dict) }}
+      {{ with $s.caption }}<p class="mt-4 text-sm">{{ . }}</p>{{ end }}
+    {{ else if $s.image }}
+      {{- /* Photo on an offset colour block (yellow by default). */ -}}
+      <figure>
+        <div class="relative {{ if $s.reverse }}mr-4 mb-4 md:mr-0 md:ml-4{{ else }}mr-4 mb-4{{ end }}">
+          <div class="absolute inset-0 {{ if $s.reverse }}-translate-x-4{{ else }}translate-x-4{{ end }} translate-y-4 {{ if eq $s.frame "blue" }}bg-blue{{ else }}bg-yellow{{ end }}" aria-hidden="true"></div>
+          <img src="{{ $s.image }}" alt="{{ $s.alt }}" class="relative aspect-[4/3] w-full object-cover" loading="lazy">
+        </div>
+        {{ with $s.caption }}<figcaption class="mt-6 text-sm">{{ . }}</figcaption>{{ end }}
+      </figure>
+    {{ else }}
+      {{ partial "pattern.html" $p }}
+    {{ end }}
+  </div>
+  <div class="col-span-12 flex flex-col gap-8 md:col-span-6 lg:col-span-5 {{ if $s.reverse }}md:order-1 md:row-start-1 md:col-start-1{{ else }}lg:col-start-8{{ end }}" data-reveal>
+    {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title) }}
+    <div class="prose-zv">{{ $s.text | $.page.RenderString }}</div>
+    {{ with $s.link }}<p><a class="btn btn-secondary" href="{{ partial "link-to.html" .link }}">{{ .label }}</a></p>{{ end }}
+  </div>
+</section>

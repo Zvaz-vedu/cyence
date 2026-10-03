@@ -1,0 +1,19 @@
+{{- /* "They said about us" – quotes in halves. Context: dict "page" "s" */ -}}
+{{- $s := .s -}}
+<section class="wrap pt-section">
+  {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "mb-block") }}
+  <ul class="grid grid-cols-12 gap-gutter gap-y-block">
+    {{ range $i, $q := $s.items }}
+      <li class="col-span-12 md:col-span-6" data-reveal style="--reveal-delay: {{ mul (mod $i 2) 90 }}ms">
+        <figure class="flex h-full flex-col gap-6 border-t-2 border-ink pt-6">
+          <span class="display -mb-6 text-[6rem] leading-[0.7] {{ if eq (mod $i 2) 0 }}text-blue{{ else }}text-yellow{{ end }}" aria-hidden="true">“</span>
+          <blockquote class="text-lg">{{ $q.quote }}</blockquote>
+          <figcaption class="mt-auto">
+            <span class="display block text-d-xs">{{ $q.name }}</span>
+            {{ with $q.role }}<span class="text-sm">{{ . }}</span>{{ end }}
+          </figcaption>
+        </figure>
+      </li>
+    {{ end }}
+  </ul>
+</section>

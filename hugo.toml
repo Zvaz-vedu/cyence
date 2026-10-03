@@ -1,0 +1,207 @@
+baseURL = 'https://cyence.eu/'
+title = 'CYENCE'
+defaultContentLanguage = 'en'
+defaultContentLanguageInSubdir = false
+enableRobotsTXT = true
+removePathAccents = true
+disableKinds = ['taxonomy', 'term', 'rss']
+
+[params]
+  organizer = 'Zvaž vědu!, z. s.'
+  organizerURL = 'https://zvazvedu.cz'
+  email = 'info@cyence.eu'
+  dateStart = 2027-09-05
+  dateEnd = 2027-09-12
+
+[languages]
+  [languages.en]
+    label = 'English'
+    locale = 'en-GB'
+    weight = 1
+    title = 'CYENCE – Czech Youth Expo & Conference'
+    [languages.en.params]
+      description = 'An international science research competition and conference for high school students. Brno, 5–12 September 2027.'
+  [languages.cs]
+    label = 'Čeština'
+    locale = 'cs-CZ'
+    weight = 2
+    title = 'CYENCE – Czech Youth Expo & Conference'
+    [languages.cs.params]
+      description = 'Mezinárodní soutěž a konference pro středoškolské výzkumníky. Brno, 5.–12. září 2027.'
+
+# Main navigation. `pageRef` resolves to the translated URL in each language.
+[[languages.en.menus.main]]
+  identifier = 'about'
+  name = 'About'
+  pageRef = '/about'
+  weight = 10
+[[languages.en.menus.main]]
+  parent = 'about'
+  name = 'The Event'
+  pageRef = '/about/event'
+  weight = 11
+[[languages.en.menus.main]]
+  parent = 'about'
+  name = 'Our Team'
+  pageRef = '/about/team'
+  weight = 12
+[[languages.en.menus.main]]
+  parent = 'about'
+  name = 'Brno'
+  pageRef = '/about/brno'
+  weight = 13
+[[languages.en.menus.main]]
+  parent = 'about'
+  name = 'South Moravia'
+  pageRef = '/about/south-moravia'
+  weight = 14
+[[languages.en.menus.main]]
+  name = 'Programme'
+  pageRef = '/programme'
+  weight = 20
+[[languages.en.menus.main]]
+  name = 'Projects'
+  pageRef = '/projects'
+  weight = 30
+[[languages.en.menus.main]]
+  name = 'Public Day'
+  pageRef = '/public-day'
+  weight = 40
+[[languages.en.menus.main]]
+  name = 'Media'
+  pageRef = '/media'
+  weight = 50
+[[languages.en.menus.main]]
+  name = 'Partners'
+  pageRef = '/partners'
+  weight = 60
+[[languages.en.menus.main]]
+  name = 'Contact'
+  pageRef = '/contact'
+  weight = 70
+[[languages.en.menus.cta]]
+  name = 'Apply'
+  pageRef = '/apply'
+  weight = 10
+[[languages.en.menus.footer]]
+  name = 'News'
+  pageRef = '/news'
+  weight = 5
+[[languages.en.menus.footer]]
+  name = 'Privacy policy'
+  pageRef = '/privacy'
+  weight = 10
+
+[[languages.cs.menus.main]]
+  identifier = 'about'
+  name = 'O akci'
+  pageRef = '/about'
+  weight = 10
+[[languages.cs.menus.main]]
+  parent = 'about'
+  name = 'CYENCE'
+  pageRef = '/about/event'
+  weight = 11
+[[languages.cs.menus.main]]
+  parent = 'about'
+  name = 'Náš tým'
+  pageRef = '/about/team'
+  weight = 12
+[[languages.cs.menus.main]]
+  parent = 'about'
+  name = 'Brno'
+  pageRef = '/about/brno'
+  weight = 13
+[[languages.cs.menus.main]]
+  parent = 'about'
+  name = 'Jižní Morava'
+  pageRef = '/about/south-moravia'
+  weight = 14
+[[languages.cs.menus.main]]
+  name = 'Program'
+  pageRef = '/programme'
+  weight = 20
+[[languages.cs.menus.main]]
+  name = 'Projekty'
+  pageRef = '/projects'
+  weight = 30
+[[languages.cs.menus.main]]
+  name = 'Veřejný den'
+  pageRef = '/public-day'
+  weight = 40
+[[languages.cs.menus.main]]
+  name = 'Média'
+  pageRef = '/media'
+  weight = 50
+[[languages.cs.menus.main]]
+  name = 'Partneři'
+  pageRef = '/partners'
+  weight = 60
+[[languages.cs.menus.main]]
+  name = 'Kontakt'
+  pageRef = '/contact'
+  weight = 70
+[[languages.cs.menus.cta]]
+  name = 'Přihláška'
+  pageRef = '/apply'
+  weight = 10
+[[languages.cs.menus.footer]]
+  name = 'Aktuality'
+  pageRef = '/news'
+  weight = 5
+[[languages.cs.menus.footer]]
+  name = 'Ochrana osobních údajů'
+  pageRef = '/privacy'
+  weight = 10
+
+[markup.goldmark.renderer]
+  unsafe = false
+[markup.goldmark.extensions.typographer]
+  disable = false
+
+# Tailwind v4: Hugo writes the classes it sees in templates to hugo_stats.json,
+# which Tailwind scans; the cachebuster rebuilds CSS when that file changes.
+[build]
+  [build.buildStats]
+    enable = true
+  [[build.cachebusters]]
+    source = 'assets/notwatching/hugo_stats\.json'
+    target = 'css'
+  [[build.cachebusters]]
+    source = '(postcss|tailwind)\.config\.js'
+    target = 'css'
+
+[module]
+  [[module.mounts]]
+    source = 'assets'
+    target = 'assets'
+  [[module.mounts]]
+    disableWatch = true
+    source = 'hugo_stats.json'
+    target = 'assets/notwatching/hugo_stats.json'
+
+# Czech URLs for sections (single pages use `slug` in their .cs.md file).
+[languages.cs.permalinks.page]
+  about = '/o-akci/:slug/'
+  projects = '/projekty/:contentbasename/'
+  news = '/aktuality/:slug/'
+  public-day = '/verejny-den/:slug/'
+[languages.cs.permalinks.section]
+  about = '/o-akci/'
+  projects = '/projekty/'
+  news = '/aktuality/'
+  public-day = '/verejny-den/'
+
+[security.exec]
+  allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']
+
+# Projects live in /projects (one file each, in English) and are shown on
+# both language sites.
+[[module.mounts]]
+  source = 'content'
+  target = 'content'
+[[module.mounts]]
+  source = 'projects'
+  target = 'content/projects'
+  [module.mounts.sites.matrix]
+    languages = ['en', 'cs']

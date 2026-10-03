@@ -1,0 +1,325 @@
+{
+ "cols": 96,
+ "rows": 56,
+ "source": "ČÚZK via github.com/siwekm/czech-geojson",
+ "regions": {
+  "A": {
+   "code": "PHA",
+   "nameCs": "Hlavní město Praha",
+   "nameEn": "Prague",
+   "bbox": [
+    31,
+    19,
+    6,
+    5
+   ]
+  },
+  "B": {
+   "code": "STC",
+   "nameCs": "Středočeský kraj",
+   "nameEn": "Central Bohemian Region",
+   "bbox": [
+    19,
+    10,
+    30,
+    24
+   ]
+  },
+  "C": {
+   "code": "JHC",
+   "nameCs": "Jihočeský kraj",
+   "nameEn": "South Bohemian Region",
+   "bbox": [
+    21,
+    32,
+    29,
+    23
+   ]
+  },
+  "D": {
+   "code": "PLK",
+   "nameCs": "Plzeňský kraj",
+   "nameEn": "Plzeň Region",
+   "bbox": [
+    4,
+    21,
+    21,
+    25
+   ]
+  },
+  "E": {
+   "code": "KVK",
+   "nameCs": "Karlovarský kraj",
+   "nameEn": "Karlovy Vary Region",
+   "bbox": [
+    0,
+    13,
+    17,
+    12
+   ]
+  },
+  "F": {
+   "code": "ULK",
+   "nameCs": "Ústecký kraj",
+   "nameEn": "Ústí nad Labem Region",
+   "bbox": [
+    12,
+    0,
+    24,
+    21
+   ]
+  },
+  "G": {
+   "code": "LBK",
+   "nameCs": "Liberecký kraj",
+   "nameEn": "Liberec Region",
+   "bbox": [
+    32,
+    1,
+    18,
+    12
+   ]
+  },
+  "H": {
+   "code": "HKK",
+   "nameCs": "Královéhradecký kraj",
+   "nameEn": "Hradec Králové Region",
+   "bbox": [
+    43,
+    6,
+    20,
+    16
+   ]
+  },
+  "I": {
+   "code": "PAK",
+   "nameCs": "Pardubický kraj",
+   "nameEn": "Pardubice Region",
+   "bbox": [
+    47,
+    19,
+    21,
+    13
+   ]
+  },
+  "J": {
+   "code": "VYS",
+   "nameCs": "Kraj Vysočina",
+   "nameEn": "Vysočina Region",
+   "bbox": [
+    40,
+    26,
+    21,
+    20
+   ]
+  },
+  "K": {
+   "code": "JHM",
+   "nameCs": "Jihomoravský kraj",
+   "nameEn": "South Moravian Region",
+   "bbox": [
+    49,
+    31,
+    29,
+    21
+   ]
+  },
+  "L": {
+   "code": "OLK",
+   "nameCs": "Olomoucký kraj",
+   "nameEn": "Olomouc Region",
+   "bbox": [
+    66,
+    13,
+    17,
+    26
+   ]
+  },
+  "M": {
+   "code": "MSK",
+   "nameCs": "Moravskoslezský kraj",
+   "nameEn": "Moravian-Silesian Region",
+   "bbox": [
+    72,
+    16,
+    24,
+    20
+   ]
+  },
+  "N": {
+   "code": "ZLK",
+   "nameCs": "Zlínský kraj",
+   "nameEn": "Zlín Region",
+   "bbox": [
+    71,
+    33,
+    19,
+    15
+   ]
+  }
+ },
+ "cities": {
+  "praha": {
+   "nameCs": "Praha",
+   "nameEn": "Prague",
+   "x": 33,
+   "y": 21,
+   "widthCs": 2.302,
+   "widthEn": 2.692
+  },
+  "brno": {
+   "nameCs": "Brno",
+   "nameEn": "Brno",
+   "x": 64,
+   "y": 40,
+   "widthCs": 1.898,
+   "widthEn": 1.898
+  },
+  "plzen": {
+   "nameCs": "Plzeň",
+   "nameEn": "Pilsen",
+   "x": 18,
+   "y": 28,
+   "widthCs": 2.114,
+   "widthEn": 2.382
+  },
+  "ostrava": {
+   "nameCs": "Ostrava",
+   "nameEn": "Ostrava",
+   "x": 87,
+   "y": 27,
+   "widthCs": 3.142,
+   "widthEn": 3.142
+  },
+  "liberec": {
+   "nameCs": "Liberec",
+   "nameEn": "Liberec",
+   "x": 42,
+   "y": 6,
+   "widthCs": 2.775,
+   "widthEn": 2.775
+  },
+  "olomouc": {
+   "nameCs": "Olomouc",
+   "nameEn": "Olomouc",
+   "x": 73,
+   "y": 32,
+   "widthCs": 3.469,
+   "widthEn": 3.469
+  },
+  "ceske-budejovice": {
+   "nameCs": "České Budějovice",
+   "nameEn": "České Budějovice",
+   "x": 33,
+   "y": 45,
+   "widthCs": 6.659,
+   "widthEn": 6.659
+  },
+  "hradec-kralove": {
+   "nameCs": "Hradec Králové",
+   "nameEn": "Hradec Králové",
+   "x": 53,
+   "y": 18,
+   "widthCs": 6.031,
+   "widthEn": 6.031
+  },
+  "usti-nad-labem": {
+   "nameCs": "Ústí nad Labem",
+   "nameEn": "Ústí nad Labem",
+   "x": 27,
+   "y": 8,
+   "widthCs": 5.724,
+   "widthEn": 5.724
+  },
+  "pardubice": {
+   "nameCs": "Pardubice",
+   "nameEn": "Pardubice",
+   "x": 52,
+   "y": 22,
+   "widthCs": 3.878,
+   "widthEn": 3.878
+  },
+  "zlin": {
+   "nameCs": "Zlín",
+   "nameEn": "Zlín",
+   "x": 79,
+   "y": 40,
+   "widthCs": 1.509,
+   "widthEn": 1.509
+  },
+  "jihlava": {
+   "nameCs": "Jihlava",
+   "nameEn": "Jihlava",
+   "x": 49,
+   "y": 36,
+   "widthCs": 2.863,
+   "widthEn": 2.863
+  },
+  "karlovy-vary": {
+   "nameCs": "Karlovy Vary",
+   "nameEn": "Karlovy Vary",
+   "x": 11,
+   "y": 18,
+   "widthCs": 5.138,
+   "widthEn": 5.138
+  }
+ },
+ "grid": [
+  "...............................FFF..............................................................",
+  "...............................FFFFF.....GGGG...................................................",
+  "................................FFF......GGGG...................................................",
+  "................................FFFF.....GGGG...................................................",
+  "..............................FFFFFf...GGGGGGG..................................................",
+  "..........................F.FFFFFffGGGGGGGGGGG.G................................................",
+  "..........................FFFFFFfGGGGGGGGGGGGGGGgH..............................................",
+  "......................FFFFFFFFFfGGGGGGGGGGGGGGGGgHHHH...........................................",
+  ".....................FFFFFFFFFFfGGGGGGGGGGGGGGGGghHHHHH.........................................",
+  "..................F.FFFFFFFFFFFfgGGGGGGgggGGGGGGGgHHHHH.HHHHH...................................",
+  "................FFFFFFFFFFFFFFFFfGGGGGgBBbgGGGGGghHHHHHHHHHHHH..................................",
+  "................FFFFFFFFFFFFFFFFfggGGgBBBBbggggGggHHHHHHHHHHH...................................",
+  ".............FFFFFFFFFFFFFFFFFFFFfbggBBBBBbHHHhgHHHHHHHHHHHH....................................",
+  "..........E..FFFFFFFFFFFFFFFFFFFfBBBBBBBBBbHHHHHHHHHHHHHHH..........L...........................",
+  "......EEEEEeffFfFFFFFFFFFFFFFFFfBBBBBBBBBBbHHHHHHHHHHHHHHHH.........LLL.........................",
+  "......EEEEEEEefeFFFFFFFFFFfffffBBBBBBBBBBBbhHHHHHHHHHHHHHHHHH........LLLL.......................",
+  "EE..EEEEEEEEEEEeFFFFFFFFffBBBBBBBBBBBBBBBBBbhhhHHHHHHHHHHHHHHH.......LLLLLL....M................",
+  "EE..EEEEEEEEEEEeFFFFFFffBBBBBBBBBBBBBBBBBBBBBBbHHHHHHHHHHHHHHHH.......LLLLLlMMMM................",
+  ".EEEEEEEEEEEEEEefFFFffBBBBBBBBBBBBbBBBBBBBBBBBbHHHHHHHHHHHHHHHH.....LLLLLLllMMMM................",
+  "..EEEEEEEEEEEEEEeFFfBBBBBBBBBBBbbbabBBBBBBBBBbhhHhhhhhhhHHHHHHh....iLLLLLlMMMM..................",
+  "..EEEEEEEEEEEEEEefffBBBBBBBBBBbAAAAabBBBBBBBBBBbhIIIIIIihHHHHhII..iLLLLLlMMMMMM.................",
+  "...EEEEEEEEEEEEEeDdbbBBBBBBBBBbAAAAAaBBBBBBBBBbIIIIIIIIIihhhhIIIIIiLLLLLlMMMMMMM................",
+  "....EEEEEEEEEeeeDDDDdbBBBBBBBBbaAAaaBBBBBBBBBBbiIIIIIIIIIIIIIIIIIIiLLLLlMMMMMMMMM...M...........",
+  ".....EEEEEEEeDDDDDDDDdbBBBBBBBBbaaBBBBBBBBBBBBBbiIIIIIIIIIIIIIIIIiLLLLLlMMMMMMMMMM.MMMM.........",
+  ".....EeeeeeeDDDDDDDDDDdbbBBBBBBBBBBBBBBBBBBBBBBBbIIIIIIIIIIIIIIIIiLLLLLlMMMMMMMMMMMMMMMM........",
+  "......DDDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBBBBBBBBBBbiIIIIIIIIIIIIIIIIiLLLLLlmMmMmMMMMMMMMMMMMMMM....",
+  "......DDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBBBBBBBBBBBbjiiIIIIIIIIIIIIIIiLLLLLLlmlmlMMMMMMMMMMMMMMM....",
+  ".....DDDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBBBBBBBBBbbJJJjiIIIIIIIIIIIIIilLLLLLLLLLlmMMMMMMMMMMMMMM....",
+  "....DDDDDDDDDDDDDDDDDDDdbBBBBBBBBBBBBBBBBBBBbJJJJJJjiIIiIIIIIIIIIIiLLLLLLLLLLlmMMMMMMMMMMMMMM...",
+  ".....DDDDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBBBBBBbJJJJJJJJjiijiiIIIIIIIIiLLLLLLLLLLLlmMMMMMMMMMMMMM...",
+  "......DDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBBBBBBBbjJJJJJJJJJJJJjiiIIIiiIiLLLLLLLLLLLLlmMMMMMMMMMMMMMM.",
+  "......DDDDDDDDDDDDDDDDDdBBBBBBBBBBBBBbbbbbbbbJJJJJJJJJJJJJJjiiiKkiiLLLLLLLLLLLLLlmMMMMMMMMMMMMM.",
+  ".......DDDDDDDDDDDDDDDdbBBBbBbbbbbbBbCCcJJJJJJJJJJJJJJJJJJJJjKKKKKkLLLLLLLLLLLLLLlmmMMMMMMMMMMMM",
+  ".......DDDDDDDDDDDDDDDDdbbbcbCCCCCcbbCCcJJJJJJJJJJJJJJJJJJJJjKKKKKkLlLLLLLLLLLLLLllnmmmMMMMMMMMM",
+  "........DDDDDDDDDDDDDDDdCCCCCCCCCCCCCCCcJJJJJJJJJJJJJJJJJJJJjKKKKKklkLLLLLLLLLlllNNNNNnmmMM.....",
+  "........DDDDDDDDDDDDDDDdCCCCCCCCCCCCCCCcJJJJJJJJJJJJJJJJJJJjKKKKKKklklLLLLLLLlNnlNNNNNNNnmM.....",
+  ".........DDDDDDDDDDDDDDdCCCCCCCCCCCCCCCcJJJJJJJJJJJJJJJJJJjKKKKKKKklKklLLLLllNNNNNNNNNNNNN......",
+  "..........D.DDDDDDDDDDDdCCCCCCCCCCCCCCCcJJJJJJJJJJJJJJJJJJjKKKKKKKKKKKklLLlNNNNNNNNNNNNNN.......",
+  ".............DDDDDDDDDdCCCCCCCCCCCCCCCCcjjjJJJJJJJJJJJJJJJjkKKKKKKKKKKKkllNNNNNNNNNNNNNN........",
+  "..............DDDDDDDDdCCCCCCCCCCCCCCCCCCCcjjjJJJJJJJJJJJJJjKKKKKKKKKKKkNNNNNNNNNNNNNN..........",
+  "...............DDDDDDDdCCCCCCCCCCCCCCCCCCCCCCcJJJJJJJJJJJJjKKKKKKKKKKKKkNNNNNNNNNNNNNN..........",
+  "...............DDDDDDddCCCCCCCCCCCCCCCCCCCCCCcjjjJJJJJJJJJjKKKKKKKKKKKKkNNNNNNNNNNNNNN..........",
+  "................DDDDdCCCCCCCCCCCCCCCCCCCCCCCCCCCcjJJJJJJJJjKKKKKKKKKKKKknNNNNNNNNNNNNN..........",
+  "..................DDdCCCCCCCCCCCCCCCCCCCCCCCCCCCCcJJJJjJjjKKKKKKKKKKKKknkNNNNNNNNNNNN...........",
+  "...................DdCCCCCCCCCCCCCCCCCCCCCCCCCCCcJJJJjkjKKKKKKKKKKKKKKKKknnNNNNNNNNNN...........",
+  "...................DdCCCCCCCCCCCCCCCCCCCC..CCCCCcjjjjKKKKKKKKKKKKKKKKKKKKKknnNNNNN..............",
+  "......................CCCCCCCCCCCCCCCCCCC.......cKKKKKKKKKKKKKKKKKKKKKKKKKKKknNNNN..............",
+  "......................CCCCCCCCCCCCCCCCCCC.........KKKKKKKKKKKKKKKKKKKKKKKKKKKkNN................",
+  "........................CCCCCCCCCCCCCCCCC.............KKKKKKKKKKKKKKKKKK..KKKK..................",
+  "........................CCCCCCCCCCCCCCCCC..............KKKKKKKKKKKKKKKK.........................",
+  "..........................CCCCCCCCCCCCC.................KKKKK....KKKKK..........................",
+  "...........................CCCCCCCCCCC.............................KKK..........................",
+  "............................CCCCCCCCC...........................................................",
+  "............................CCCCC.CCC...........................................................",
+  "...............................CC...............................................................",
+  "................................................................................................"
+ ]
+}

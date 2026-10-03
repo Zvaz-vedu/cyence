@@ -1,0 +1,20 @@
+# CYENCE team. PLACEHOLDER names – replace with the real team.
+# `photo` is optional (path under /static, e.g. /images/team/jan.jpg); without
+# it the person gets their own small interference pattern.
+groups:
+  - name: { en: "Leadership", cs: "Vedení" }
+    people:
+      - { name: "Name Surname", role: { en: "Project lead", cs: "Vedoucí projektu" }, email: "" }
+      - { name: "Name Surname", role: { en: "Deputy lead", cs: "Zástupce vedoucího" } }
+      - { name: "Name Surname", role: { en: "Head of programme", cs: "Vedoucí programu" } }
+      - { name: "Name Surname", role: { en: "Head of partnerships", cs: "Vedoucí partnerství" } }
+  - name: { en: "Organising team", cs: "Organizační tým" }
+    people:
+      - { name: "Name Surname", role: { en: "International relations", cs: "Mezinárodní vztahy" } }
+      - { name: "Name Surname", role: { en: "Public Day coordinator", cs: "Koordinace veřejného dne" } }
+      - { name: "Name Surname", role: { en: "Production", cs: "Produkce" } }
+      - { name: "Name Surname", role: { en: "Marketing & PR", cs: "Marketing a PR" } }
+      - { name: "Name Surname", role: { en: "Jury coordinator", cs: "Koordinace poroty" } }
+      - { name: "Name Surname", role: { en: "Volunteers", cs: "Dobrovolníci" } }
+      - { name: "Name Surname", role: { en: "Finance", cs: "Finance" } }
+      - { name: "Name Surname", role: { en: "Design", cs: "Design" } }
