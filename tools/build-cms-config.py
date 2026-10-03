@@ -8,14 +8,13 @@ data files:
     pip install pyyaml
     python tools/build-cms-config.py
 
-Set REPO below once the project is on GitHub.
 """
 from pathlib import Path
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = "OWNER/cyence-web"  # TODO: GitHub "owner/repo" once the repository exists
+REPO = "pgersl/cyence"  # GitHub "owner/repo"
 BRANCH = "main"
 
 data = lambda name: yaml.safe_load((ROOT / "data" / f"{name}.yaml").read_text(encoding="utf-8"))

@@ -2,7 +2,7 @@
 # Edit that script and re-run it instead of editing this file.
 backend:
   name: github
-  repo: OWNER/cyence-web
+  repo: pgersl/cyence
   branch: main
 site_url: https://cyence.eu
 media_folder: static/images/uploads
