@@ -13,7 +13,11 @@
          "isolate"     – bool: draw only the focus region, in blue with a
                          yellow marker (the "selected" look of the main map)
          "interactive" – bool: Public Day regions get class "stop" and,
-                         like the markers, data-region for publicday.js */ -}}
+                         like the markers, data-region for publicday.js
+         "links"       – bool: each Public Day region (with its marker) is a
+                         link to its city page; the label links there too
+         "current"     – region code drawn in the "selected" look (blue,
+                         yellow marker) and not linked – the city's own page */ -}}
 {{- $m := hugo.Data.czechia -}}
 {{- $stops := hugo.Data.publicday.stops -}}
 {{- $colors := dict "yellow" "#ffc300" "blue" "#00aeef" -}}
@@ -23,6 +27,16 @@
 {{- $u := div (float $m.cols) 64 -}}{{/* marker/label scale relative to the 64-col design */}}
 {{- $interactive := .interactive | default false -}}
 {{- $focus := .focus | default "" -}}
+{{- $links := .links | default false -}}
+{{- $current := .current | default "" -}}
+{{- /* City page URLs by city key, for links. */ -}}
+{{- $pages := dict -}}
+{{- if $links -}}
+  {{- with site.GetPage "/public-day" -}}
+    {{- range .Pages -}}{{- $pages = merge $pages (dict .Params.city .) -}}{{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $grouped := newScratch -}}{{/* rects of linked regions, by region code */}}
 {{- $isolate := and $focus (.isolate | default false) -}}
 {{- if $isolate -}}{{- $marker = "#ffc300" -}}{{- end -}}
 
@@ -56,7 +70,7 @@
 {{- $names := slice -}}
 {{- range $stops -}}{{- with index $m.cities .city -}}{{- $names = $names | append (cond $cs .nameCs .nameEn) -}}{{- end -}}{{- end -}}
 <svg class="block h-auto w-full {{ .class }}" viewBox="{{ delimit $vb " " }}" shape-rendering="crispEdges"
-     role="img" aria-label="{{ T "mapLabel" }}: {{ delimit $names ", " }}">
+     {{ if $links }}role="group" data-pd-map{{ else }}role="img"{{ end }} aria-label="{{ T "mapLabel" }}: {{ delimit $names ", " }}">
   {{- range $j, $row := $m.grid -}}
     {{- $chars := split $row "" -}}
     {{- $start := 0 -}}
@@ -67,18 +81,45 @@
         {{- $code := index $codes (upper $cur) -}}
         {{- if and (ne $cur ".") (eq $cur (upper $cur)) (or (not $isolate) (eq $code $focus)) -}}
           {{- $isStop := in $active $code -}}
-          <rect x="{{ $start }}" y="{{ $j }}" width="{{ sub $i $start }}" height="1" data-region="{{ $code }}" fill="{{ if $isolate }}#00aeef{{ else }}{{ cond $isStop "#231f20" $fill }}{{ end }}"{{ if and $interactive $isStop }} class="stop"{{ end }}/>
+          {{- $color := cond $isStop "#231f20" $fill -}}
+          {{- if or $isolate (eq $code $current) -}}{{- $color = "#00aeef" -}}{{- end -}}
+          {{- $rect := printf `<rect x="%d" y="%d" width="%d" height="1" data-region="%s" fill="%s"%s/>` $start $j (sub $i $start) $code $color (cond (and (or $interactive $links) $isStop (ne $code $current)) ` class="stop"` "") -}}
+          {{- if and $links $isStop (ne $code $current) -}}
+            {{- $grouped.Add $code (slice $rect) -}}
+          {{- else -}}
+            {{- $rect | safeHTML -}}
+          {{- end -}}
         {{- end -}}
         {{- $start = $i -}}
         {{- $cur = $c -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
+  {{- /* Linked regions: the region's cells and its marker form one link. */ -}}
   {{- range $stops -}}
     {{- $region := .region -}}
+    {{- $isCurrent := eq $region $current -}}
+    {{- $page := index $pages .city -}}
     {{- with index $m.cities .city -}}
       {{- $s := 2 -}}{{/* marker size in cells */}}
-      <rect x="{{ sub .x (math.Floor (div $s 2)) }}" y="{{ sub .y (math.Floor (div $s 2)) }}" width="{{ $s }}" height="{{ $s }}" fill="{{ $marker }}"{{ if $interactive }} class="marker" data-region="{{ $region }}"{{ end }}/>
+      {{- $markerRect := printf `<rect x="%v" y="%v" width="%d" height="%d" fill="%s"%s/>` (sub .x (math.Floor (div $s 2))) (sub .y (math.Floor (div $s 2))) $s $s (cond $isCurrent "#ffc300" $marker) (cond (and (or $interactive $links) (not $isCurrent)) (printf ` class="marker" data-region="%s"` $region) "") -}}
+      {{- if and $links (not $isCurrent) $page -}}
+        <a href="{{ $page.RelPermalink }}" data-pd-select="{{ $region }}" data-pd-city="{{ $page.Params.city }}" aria-label="{{ $page.Title }}">
+          {{- range $grouped.Get $region -}}{{- . | safeHTML -}}{{- end -}}
+          {{- $markerRect | safeHTML -}}
+        </a>
+      {{- else -}}
+        {{- $markerRect | safeHTML -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- /* Labels on top of all regions. */ -}}
+  {{- range $stops -}}
+    {{- $region := .region -}}
+    {{- $isCurrent := eq $region $current -}}
+    {{- $page := index $pages .city -}}
+    {{- with index $m.cities .city -}}
+      {{- $s := 2 -}}
       {{- if ne $.labels false -}}
         {{- /* Label on a cream tag so it reads over black regions too; near
                the right edge the tag goes to the left of the marker. */ -}}
@@ -90,10 +131,14 @@
         {{- $w := add (mul (cond $cs .widthCs .widthEn) $fs) (mul 2 $pad) -}}
         {{- $h := mul 3 $u -}}
         {{- $tx := cond (gt .x (sub $m.cols (mul 14 $u))) (sub .x (add $w $s)) (add .x $s) -}}
-        <g aria-hidden="true"{{ if $interactive }} class="label" data-region="{{ $region }}"{{ end }}>
+        {{- /* With links, the label links to the city as well, but stays out
+               of the keyboard order (the region link already covers it). */ -}}
+        {{- if and $links (not $isCurrent) $page -}}<a href="{{ $page.RelPermalink }}" tabindex="-1" aria-hidden="true" data-pd-label="{{ $region }}">{{- end -}}
+        <g aria-hidden="true"{{ if or $interactive $links }} class="label" data-region="{{ $region }}"{{ end }}>
           <rect x="{{ $tx }}" y="{{ sub .y (div $h 2) }}" width="{{ $w }}" height="{{ $h }}" fill="#f2ede6"/>
           <text x="{{ add $tx $pad }}" y="{{ add .y (mul 0.85 $u) }}" font-family="ZV Display, sans-serif" font-size="{{ $fs }}" fill="#231f20">{{ $label }}</text>
         </g>
+        {{- if and $links (not $isCurrent) $page -}}</a>{{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

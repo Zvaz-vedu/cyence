@@ -73,3 +73,23 @@ for (const carousel of document.querySelectorAll("[data-carousel]")) {
   carousel.querySelector("[data-carousel-prev]").addEventListener("click", () => step(-1));
   carousel.querySelector("[data-carousel-next]").addEventListener("click", () => step(1));
 }
+
+// Easter eggs for the hidden "Waves" game:
+// - typing "waves" (or "vlny") anywhere outside a form field opens it;
+// - clicking the hero pattern a few times reveals a link to it.
+const playUrl = document.documentElement.dataset.play;
+if (playUrl) {
+  let typed = "";
+  document.addEventListener("keydown", (e) => {
+    if (e.target.closest?.("input, textarea, select, [contenteditable]") || e.key.length !== 1) return;
+    typed = (typed + e.key.toLowerCase()).slice(-5);
+    if (typed.endsWith("waves") || typed.endsWith("vlny")) location.href = playUrl;
+  });
+
+  const link = document.querySelector("[data-play-link]");
+  const hero = link?.closest("figure")?.querySelector("[data-pattern] canvas");
+  let clicks = 0;
+  hero?.addEventListener("click", () => {
+    if (++clicks >= 5) link.hidden = false;
+  });
+}

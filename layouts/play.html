@@ -1,0 +1,40 @@
+<!doctype html>
+{{- /* "Waves" – hidden full-screen page: the interference pattern filling the
+       screen, click to move the sources. After a while a link to the
+       pattern lab appears. Script: assets/js/play.js. */ -}}
+<html lang="{{ site.Language.Locale | default site.Language.Lang }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="overflow-hidden bg-ink">
+  {{- $panel := "pointer-events-auto border-2 border-ink bg-cream" -}}
+  <div class="fixed inset-0 overflow-hidden select-none" data-play>
+    <div class="absolute top-0 left-0 touch-none" data-play-field
+         data-pattern-options='{"wavelengthYellow": 8, "wavelengthBlue": 12, "speed": 0.3}'>
+      <canvas aria-label="{{ T "playFieldLabel" }}" role="img"></canvas>
+    </div>
+
+    {{- $box := "pointer-events-auto border-2 border-ink bg-cream" -}}
+    <a href="{{ site.Home.RelPermalink }}" class="{{ $box }} absolute top-4 right-4 grid size-10 place-items-center hover:bg-ink hover:text-cream sm:top-6 sm:right-6" aria-label="{{ T "playExit" }}" title="{{ T "playExit" }}">
+      {{- /* pixel X */ -}}
+      <svg class="size-3.5" viewBox="0 0 5 5" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M0 0h1v1H0zM1 1h1v1H1zM2 2h1v1H2zM3 3h1v1H3zM4 4h1v1H4zM4 0h1v1H4zM3 1h1v1H3zM1 3h1v1H1zM0 4h1v1H0z"/></svg>
+    </a>
+
+    {{- /* One small note at the bottom: first how to play, later (after a
+           while) an invitation to the pattern lab in the same spot. */ -}}
+    <div class="pointer-events-none absolute bottom-4 left-4 sm:bottom-6 sm:left-6" aria-live="polite">
+      <p class="{{ $box }} px-3 py-2 text-sm" data-play-hint>{{ T "playHintText" }}</p>
+      {{ with site.GetPage "/pattern-lab" }}
+        <a class="{{ $box }} block px-3 py-2 text-sm hover:bg-ink hover:text-cream" href="{{ .RelPermalink }}" data-play-lab hidden>{{ T "playLabLink" }} →</a>
+      {{ end }}
+    </div>
+  </div>
+
+  {{ with resources.Get "js/play.js" }}
+    {{ $opts := dict "minify" (not hugo.IsDevelopment) "format" "esm" "target" "es2020" }}
+    {{ with . | js.Build $opts | fingerprint }}
+      <script type="module" src="{{ .RelPermalink }}"></script>
+    {{ end }}
+  {{ end }}
+</body>
+</html>

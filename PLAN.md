@@ -123,7 +123,7 @@ CYENCE – Czech Youth Expo & Conference 2027 · Brno, 5–12 September 2027 · 
    2. Create a GitHub OAuth App (callback URL `https://api.netlify.com/auth/done`) and add it in Netlify under the site's OAuth / access settings (provider: GitHub).
    3. Add editors as collaborators on the GitHub repository.
 8. **Forms** – once designed with the team.
-9. **Easter egg: full-screen pattern game** – a hidden page where visitors move the yellow and blue sources around a full-screen interference field.
+9. ✅ **Easter egg: "Waves"** (done 2026-10-04) – hidden full-screen pattern `/play/` (`/cs/vlny/`, `assets/js/play.js`): click to move the wave sources; after 15 s or 6 clicks a link to the pattern lab appears. Entrances: type "waves"/"vlny" anywhere, click the hero pattern 5×, link on the 404 page.
 10. **Final checks**
    - Accessibility, SEO (meta, OG images, sitemap, hreflang), performance.
    - Netlify domain + launch.

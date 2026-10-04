@@ -18,6 +18,9 @@
   </div>
   <figure class="col-span-12 sm:col-span-8 sm:col-start-3 lg:col-span-5 lg:col-start-8">
     {{ partial "pattern.html" (merge (dict "aspect" "4/5" "aspectMobile" "4/3" "cols" 24 "animate" true "interactive" true) ($s.pattern | default dict)) }}
-    <figcaption class="mt-3 text-sm">{{ T "patternHint" }}</figcaption>
+    <figcaption class="mt-3 flex flex-wrap justify-between gap-x-4 gap-y-1 text-sm">
+      <span>{{ T "patternHint" }}</span>
+      {{ with site.GetPage "/play" }}<a class="link" href="{{ .RelPermalink }}" hidden data-play-link>{{ T "playEggLink" }}</a>{{ end }}
+    </figcaption>
   </figure>
 </section>

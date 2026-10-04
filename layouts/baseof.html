@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.Language.Locale | default site.Language.Lang }}">
+<html lang="{{ site.Language.Locale | default site.Language.Lang }}"{{ with site.GetPage "/play" }} data-play="{{ .RelPermalink }}"{{ end }}>
 <head>
   {{ partial "head.html" . }}
 </head>

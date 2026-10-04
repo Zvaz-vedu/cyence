@@ -1,55 +1,65 @@
-// Public Day map: hovering a host region previews it, clicking it (or a city
-// button) shows that city's panel; clicking again returns to the general
-// panel. The selection is kept in the URL hash (#brno) so it can be shared.
+// Public Day maps (czechia-map.html with "links"): every host region is a
+// link to its city page.
+// - On every such map, hovering a region or its label highlights the region.
+// - On the overview ([data-pd]), clicking a region (or Enter on it) shows that
+//   city's panel instead of leaving the page; clicking again returns to the
+//   general panel. The selection lives in the URL hash (#brno).
+
+function parts(svg, region) {
+  return svg.querySelectorAll(`.stop[data-region="${region}"], .marker[data-region="${region}"]`);
+}
+// The region of a clicked cell, marker, label – or of the region link itself
+// (keyboard Enter clicks the <a>).
+const regionOf = (el) => {
+  const hit = el.closest("[data-region], [data-pd-select]");
+  return hit?.dataset.region || hit?.dataset.pdSelect;
+};
+
+function initHover(svg) {
+  let hovered = null;
+  const set = (region) => {
+    if (hovered) parts(svg, hovered).forEach((el) => el.classList.remove("is-hover"));
+    hovered = region;
+    if (hovered) parts(svg, hovered).forEach((el) => el.classList.add("is-hover"));
+  };
+  svg.addEventListener("mouseover", (e) => set(regionOf(e.target) || null));
+  svg.addEventListener("mouseleave", () => set(null));
+}
 
 export function initPublicDay() {
+  document.querySelectorAll("svg[data-pd-map]").forEach(initHover);
+
   const root = document.querySelector("[data-pd]");
   if (!root) return;
-
   const svg = root.querySelector("svg");
   const panels = [...root.querySelectorAll("[data-pd-panel]")];
-  const buttons = [...root.querySelectorAll("[data-pd-select]")];
-  const parts = (region) => svg.querySelectorAll(`.stop[data-region="${region}"], .marker[data-region="${region}"]`);
-  const regionOf = (el) => el.closest(".stop, .marker, .label")?.dataset.region;
+  const links = [...svg.querySelectorAll("a[data-pd-select]")];
   let selected = null;
-  let hovered = null;
-
-  function setHover(region) {
-    if (hovered) parts(hovered).forEach((el) => el.classList.remove("is-hover"));
-    hovered = region;
-    if (hovered) parts(hovered).forEach((el) => el.classList.add("is-hover"));
-  }
 
   function select(region, { updateHash = true } = {}) {
-    if (selected) parts(selected).forEach((el) => el.classList.remove("is-selected"));
+    if (selected) parts(svg, selected).forEach((el) => el.classList.remove("is-selected"));
     selected = region === selected ? null : region;
-    if (selected) parts(selected).forEach((el) => el.classList.add("is-selected"));
+    if (selected) parts(svg, selected).forEach((el) => el.classList.add("is-selected"));
 
     const show = selected || "general";
     panels.forEach((p) => (p.hidden = p.dataset.pdPanel !== show));
-    buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pdSelect === selected)));
+    links.forEach((a) => (a.dataset.pdSelect === selected ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
 
     if (updateHash) {
-      const city = buttons.find((b) => b.dataset.pdSelect === selected)?.dataset.pdCity;
+      const city = links.find((a) => a.dataset.pdSelect === selected)?.dataset.pdCity;
       history.replaceState(null, "", city ? `#${city}` : location.pathname + location.search);
     }
   }
 
+  // Region and label links select on the map instead of navigating; the
+  // panel's "More about …" button leads to the city page.
   svg.addEventListener("click", (e) => {
     const region = regionOf(e.target);
-    if (region) select(region);
+    if (!region) return;
+    e.preventDefault();
+    select(region);
   });
-  svg.addEventListener("mouseover", (e) => setHover(regionOf(e.target) || null));
-  svg.addEventListener("mouseleave", () => setHover(null));
 
-  // City buttons select on the map; they are real links for no-JS visitors.
-  for (const b of buttons) {
-    b.addEventListener("click", (e) => {
-      e.preventDefault();
-      select(b.dataset.pdSelect);
-    });
-  }
-
-  const fromHash = buttons.find((b) => b.dataset.pdCity === location.hash.slice(1));
+  const fromHash = links.find((a) => a.dataset.pdCity === location.hash.slice(1));
   if (fromHash) select(fromHash.dataset.pdSelect, { updateHash: false });
 }

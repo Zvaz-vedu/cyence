@@ -55,15 +55,14 @@
 
   {{ partial "sections.html" . }}
 
-  <nav class="wrap pt-section" aria-label="{{ T "pdOtherCities" }}">
-    <p class="display mb-6 text-d-xs">{{ T "pdOtherCities" }}</p>
-    <ul class="flex flex-wrap gap-2">
-      {{ range .Parent.Pages }}
-        {{ if ne .RelPermalink $.RelPermalink }}
-          <li><a class="btn btn-secondary px-4 py-2.5 text-sm" href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-        {{ end }}
-      {{ end }}
-      <li><a class="btn btn-primary px-4 py-2.5 text-sm" href="{{ .Parent.RelPermalink }}">{{ T "pdAllCities" }}</a></li>
-    </ul>
+  {{- /* Other cities: the map, with this city in blue and the others as links. */ -}}
+  <nav class="wrap grid-12 items-end pt-section" aria-label="{{ T "pdOtherCities" }}">
+    <div class="col-span-12 flex flex-col gap-6 md:col-span-4" data-reveal>
+      {{ partial "section-heading.html" (dict "kicker" .Parent.Title "title" (T "pdOtherCities")) }}
+      <p><a class="btn btn-secondary" href="{{ .Parent.RelPermalink }}">{{ T "pdAllCities" }}</a></p>
+    </div>
+    <div class="col-span-12 md:col-span-8" data-reveal>
+      {{ with $stop }}{{ partial "czechia-map.html" (dict "links" true "current" .region) }}{{ end }}
+    </div>
   </nav>
 {{ end }}
