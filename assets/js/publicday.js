@@ -24,6 +24,11 @@ function initHover(svg) {
   };
   svg.addEventListener("mouseover", (e) => set(regionOf(e.target) || null));
   svg.addEventListener("mouseleave", () => set(null));
+  // Label links are mouse-only duplicates of the region links: don't let a
+  // click focus them.
+  svg.addEventListener("mousedown", (e) => {
+    if (e.target.closest("[data-pd-label]")) e.preventDefault();
+  });
 }
 
 export function initPublicDay() {

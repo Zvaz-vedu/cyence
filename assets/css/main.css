@@ -313,8 +313,10 @@ svg[data-pd-map] .marker:is(.is-hover, .is-selected),
 svg[data-pd-map] a:focus-visible .marker {
   fill: var(--color-yellow);
 }
-/* Keyboard focus is shown by the region turning blue (above). */
-svg[data-pd-map] a:focus-visible {
+/* No browser focus ring on map links: in SVG it is drawn in map units and
+   becomes a large blob. Keyboard focus is shown by the region turning blue
+   (above). */
+svg[data-pd-map] a:is(:focus, :focus-visible) {
   outline: none;
 }
 
