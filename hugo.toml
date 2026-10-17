@@ -60,10 +60,6 @@ disableKinds = ['taxonomy', 'term', 'rss']
   pageRef = '/programme'
   weight = 20
 [[languages.en.menus.main]]
-  name = 'Projects'
-  pageRef = '/projects'
-  weight = 30
-[[languages.en.menus.main]]
   name = 'Roadshow'
   pageRef = '/roadshow'
   weight = 40
@@ -113,10 +109,6 @@ disableKinds = ['taxonomy', 'term', 'rss']
   name = 'Program'
   pageRef = '/programme'
   weight = 20
-[[languages.cs.menus.main]]
-  name = 'Projekty'
-  pageRef = '/projects'
-  weight = 30
 [[languages.cs.menus.main]]
   name = 'Roadshow'
   pageRef = '/roadshow'
@@ -190,7 +182,8 @@ disableKinds = ['taxonomy', 'term', 'rss']
   [module.mounts.sites.matrix]
     languages = ['cs']
 # Projects live in /projects (one file each, in English) and are shown on
-# both language sites.
+# both language sites. The Projects page is hidden until there are real
+# projects (see content/{en,cs}/projects/_index.md).
 [[module.mounts]]
   source = 'projects'
   target = 'content/projects'

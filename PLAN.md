@@ -156,6 +156,6 @@ CYENCE – Czech Youth Expo & Conference 2027 · Brno, 5–12 September 2027 · 
   - [ ] registration dates
   - [ ] number of countries ("XX" on Home)
   - [ ] replace sample news items
-  - [ ] replace the 12 sample projects in `/projects/`
+  - [ ] real projects in `/projects/` (the samples were removed 2026-10-17; the Projects page is hidden via `build` in `content/{en,cs}/projects/_index.md` and removed from the menus until then)
 - [ ] Form scope + parental-consent wording (team)
 - [x] Domains (2026-10-16): main `cyence.org` (`baseURL`); `cyence.cz` → Czech version, `cyence.eu` → same page on .org (redirects in `netlify.toml`; add both as domain aliases in Netlify). Contact: one address for everything, `info@zvazvedu.cz` (`email` in `hugo.toml`).

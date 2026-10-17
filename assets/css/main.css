@@ -47,6 +47,8 @@
 
   /* Fluid type scale. Display sizes are for ALL CAPS ZV! Display. */
   --text-*: initial;
+  --text-xs: 0.75rem; /* fine print: photo credits */
+  --text-xs--line-height: 1.4;
   --text-sm: 1rem;
   --text-sm--line-height: 1.45;
   --text-base: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
