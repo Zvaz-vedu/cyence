@@ -18,17 +18,86 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# "Roadshow" was renamed to "Public Day".
+# CSS and JS file names contain a content hash, so they never change.
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Domains: cyence.org is the main address. The other domains must be added
+# to the Netlify site as domain aliases; these rules then send them on.
+# cyence.cz goes to the Czech version, cyence.eu to the same page on .org.
 [[redirects]]
-  from = "/roadshow/*"
-  to = "/public-day/"
+  from = "https://cyence.cz/*"
+  to = "https://cyence.org/cs/"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/cs/roadshow/*"
-  to = "/cs/verejny-den/"
+  from = "https://www.cyence.cz/*"
+  to = "https://cyence.org/cs/"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "https://cyence.eu/*"
+  to = "https://cyence.org/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.cyence.eu/*"
+  to = "https://cyence.org/:splat"
+  status = 301
+  force = true
+
+# Renamed and removed pages.
+[[redirects]]
+  from = "/public-day/*"
+  to = "/roadshow/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cs/verejny-den/*"
+  to = "/cs/roadshow/:splat"
+  status = 301
+  force = true
+
+# Roadshow cities that are not confirmed (yet).
+[[redirects]]
+  from = "/roadshow/ostrava/*"
+  to = "/roadshow/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/roadshow/ceske-budejovice/*"
+  to = "/roadshow/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/cs/roadshow/ostrava/*"
+  to = "/cs/roadshow/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/cs/roadshow/ceske-budejovice/*"
+  to = "/cs/roadshow/"
+  status = 302
   force = true
 
 [[redirects]]

@@ -1,6 +1,9 @@
 {{- /* Half visual, half text. The visual is a photo (`image`, with an
-       offset `frame` colour), the Czech map (`visual: map`) or – by default –
-       an interference pattern. "reverse" puts the visual on the right.
+       offset `frame` colour), a pixel graphic (`image` + `pixelated: true`,
+       see tools/pixelate.py – the file already has its cells enlarged; shown
+       without a frame; with `photo`, clicking reveals the original; optional
+       `credit` for the photo), the
+       Czech map (`visual: map`) or – by default – an interference pattern. "reverse" puts the visual on the right.
        Context: dict "page" "s" */ -}}
 {{- $s := .s -}}
 {{- /* Section patterns play a few seconds when scrolled into view, then
@@ -11,6 +14,22 @@
     {{ if eq $s.visual "map" }}
       {{ partial "czechia-map.html" (dict) }}
       {{ with $s.caption }}<p class="mt-4 text-sm">{{ . }}</p>{{ end }}
+    {{ else if and $s.image $s.pixelated }}
+      {{- /* With `photo`, a click sends a wave that reveals the original
+             photo, and the next one turns it back (pixel-photo.js). */ -}}
+      <figure>
+        <div class="relative{{ with $s.photo }} cursor-pointer{{ end }}"{{ with $s.photo }} data-pixel-photo="{{ . }}" data-cells="{{ $s.cells | default 80 }}" role="button" tabindex="0" aria-pressed="false" aria-label="{{ T "pixelPhotoToggle" }}"{{ end }}>
+          {{- $cfg := imageConfig (printf "static%s" $s.image) -}}
+          <img src="{{ $s.image }}" alt="{{ $s.alt }}" width="{{ $cfg.Width }}" height="{{ $cfg.Height }}" class="block h-auto w-full" loading="lazy">
+        </div>
+        {{- $cap := $s.caption | default (cond (isset $s "photo") (T "pixelPhotoHint") "") -}}
+        {{ if or $cap $s.credit }}
+          <figcaption class="mt-4 flex flex-col gap-1">
+            {{ with $cap }}<span class="text-sm">{{ . }}</span>{{ end }}
+            {{ with $s.credit }}<span class="text-xs">{{ . }}</span>{{ end }}
+          </figcaption>
+        {{ end }}
+      </figure>
     {{ else if $s.image }}
       {{- /* Photo on an offset colour block (yellow by default). */ -}}
       <figure>

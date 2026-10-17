@@ -5,9 +5,18 @@
       <a href="{{ site.Home.RelPermalink }}" class="inline-block" aria-label="{{ T "home" }}">
         {{ partial "logo.html" (dict "class" "h-16 w-auto md:h-20") }}
       </a>
-      <p class="display mt-8 text-d-sm">
-        {{ partial "event-dates.html" . }}<br>{{ T "city" }}
-      </p>
+      <p class="mt-8 max-w-md">{{ site.Params.description }}</p>
+      {{- /* Organisers (data/partners.yaml), kept small next to the CYENCE logo. */ -}}
+      {{ with index (where hugo.Data.partners.tiers "id" "organisers") 0 }}
+        <div class="mt-8 flex flex-col gap-3">
+          <p class="display text-d-xs">{{ T "organizedBy" }}</p>
+          <ul class="flex items-center gap-6">
+            {{ range .partners }}
+              <li><a href="{{ .url }}" class="block" rel="noopener" target="_blank" title="{{ .name }}"><img src="{{ .logo }}" alt="{{ .name }}" class="h-8 w-auto" loading="lazy"></a></li>
+            {{ end }}
+          </ul>
+        </div>
+      {{ end }}
     </div>
 
     <nav class="col-span-6 md:col-span-3" aria-label="{{ T "footerNav" }}">
@@ -22,10 +31,6 @@
     </nav>
 
     <div class="col-span-6 flex flex-col gap-6 md:col-span-3">
-      <div>
-        <p class="display text-d-xs">{{ T "organizedBy" }}</p>
-        <p class="mt-2"><a class="link" href="{{ site.Params.organizerURL }}">{{ site.Params.organizer }}</a></p>
-      </div>
       <div>
         <p class="display text-d-xs">{{ T "contact" }}</p>
         <p class="mt-2"><a class="link" href="mailto:{{ site.Params.email }}">{{ site.Params.email }}</a></p>

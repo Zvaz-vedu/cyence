@@ -1,12 +1,14 @@
 import { initPatterns } from "./pattern.js";
 import { initReveal } from "./reveal.js";
 import { initProjects } from "./projects.js";
-import { initPublicDay } from "./publicday.js";
+import { initRoadshow } from "./roadshow.js";
+import { initPixelPhoto } from "./pixel-photo.js";
 
 initPatterns();
 
 initProjects();
-initPublicDay();
+initRoadshow();
+initPixelPhoto();
 initReveal();
 
 // Mobile menu: full-screen panel toggled by the MENU button.

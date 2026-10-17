@@ -1,0 +1,25 @@
+<!doctype html>
+{{- /* Social preview image (1200 × 630), not linked anywhere. It is turned
+       into static/images/og-<lang>.png by tools/og-image.mjs; the pages
+       point to that PNG in <meta property="og:image">. */ -}}
+<html lang="{{ site.Language.Locale | default site.Language.Lang }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="m-0 bg-cream">
+  <main class="flex h-[630px] w-[1200px] overflow-hidden" data-og>
+    <div class="flex w-[570px] flex-col justify-between p-14">
+      {{ partial "logo.html" (dict "class" "h-24 w-auto self-start") }}
+      <div class="flex flex-col gap-8">
+        <p class="display text-[4.25rem] leading-[0.95]">Czech Youth Expo &amp; Conference</p>
+        <p class="display flex flex-col self-start bg-blue px-5 pt-3.5 pb-3 text-[1.75rem] leading-tight whitespace-nowrap">
+          <span>{{ partial "event-dates.html" . }}</span><span>{{ T "city" }}</span>
+        </p>
+      </div>
+    </div>
+    {{- /* 21 columns of 30 px: the pattern is exactly 630 px tall. */ -}}
+    {{ partial "pattern.html" (dict "class" "w-[630px] shrink-0" "aspect" "1/1" "cols" 21 "wavelengthYellow" 5 "wavelengthBlue" 8.5 "seed" 7) }}
+  </main>
+  {{ partial "js.html" . }}
+</body>
+</html>

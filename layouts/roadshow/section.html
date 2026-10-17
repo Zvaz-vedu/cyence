@@ -1,0 +1,53 @@
+{{ define "main" }}
+  {{ partial "page-header.html" . }}
+  {{- $m := hugo.Data.czechia -}}
+  {{- $rs := hugo.Data.roadshow -}}
+  {{- $cs := eq site.Language.Lang "cs" -}}
+  {{- $cities := .Pages -}}
+  {{- $total := 0 -}}
+  {{- range $rs.stops -}}{{- $total = add $total .capacity -}}{{- end -}}
+  {{- $date := time $rs.date -}}
+
+  {{- /* Interactive map: each black region is a link to its city page.
+         With JS, clicking (or Enter) shows that city's panel instead; with
+         nothing selected the general panel shows. */ -}}
+  <section class="wrap" data-rs>
+    <div class="grid grid-cols-12 items-start gap-gutter gap-y-block">
+      <div class="col-span-12 flex flex-col gap-8 lg:col-span-8" data-reveal>
+        {{ partial "czechia-map.html" (dict "interactive" true "links" true) }}
+        <p class="text-sm">{{ T "rsMoreCities" }}</p>
+      </div>
+
+      <div class="col-span-12 lg:col-span-4" data-reveal style="--reveal-delay: 120ms" aria-live="polite">
+        <div class="flex flex-col gap-6 bg-yellow p-6 lg:p-8" data-rs-panel="general">
+          <p class="display text-d-xs">{{ $date | time.Format ":date_long" }}</p>
+          <h2 class="display text-d-md text-balance">{{ T "rsGeneralTitle" }}</h2>
+          <dl class="grid grid-cols-2 gap-x-4 gap-y-4">
+            <div><dt class="display text-d-xs">{{ T "rsCities" }}</dt><dd class="display text-d-sm">{{ len $rs.stops }}</dd></div>
+            <div><dt class="display text-d-xs">{{ T "rsTime" }}</dt><dd class="display text-d-sm">{{ $rs.time }}</dd></div>
+            <div class="col-span-2"><dt class="display text-d-xs">{{ T "rsAudience" }}</dt><dd>{{ replace (T "rsUpTo") "{n}" (lang.FormatNumber 0 $total) }}</dd></div>
+          </dl>
+          <p class="text-sm">{{ T "rsChooseCity" }}</p>
+        </div>
+
+        {{ range $rs.stops }}
+          {{- $stop := . -}}
+          {{- with index (where $cities "Params.city" $stop.city) 0 -}}
+            <div class="flex flex-col gap-6 bg-yellow p-6 lg:p-8" data-rs-panel="{{ $stop.region }}" hidden>
+              <p class="display text-d-xs">{{ $date | time.Format ":date_long" }} · {{ $rs.time }}</p>
+              <h2 class="display text-d-lg">{{ .Title }}</h2>
+              <dl class="flex flex-col gap-4">
+                <div><dt class="display text-d-xs">{{ T "rsVenue" }}</dt><dd>{{ if $stop.tentative }}{{ T "rsVenueTbc" }}{{ else }}{{ $stop.venue }}{{ end }}</dd></div>
+                <div><dt class="display text-d-xs">{{ T "rsAudience" }}</dt><dd>{{ replace (T "rsUpTo") "{n}" (lang.FormatNumber 0 $stop.capacity) }}</dd></div>
+              </dl>
+              {{ with .Params.lead }}<p>{{ . }}</p>{{ end }}
+              <p><a class="btn btn-dark" href="{{ .RelPermalink }}">{{ T "rsMoreAbout" }} {{ .Title }} →</a></p>
+            </div>
+          {{- end -}}
+        {{ end }}
+      </div>
+    </div>
+  </section>
+
+  {{ partial "sections.html" . }}
+{{ end }}

@@ -3,6 +3,8 @@
        Days marked `highlight: true` get a blue date block.
        Context: dict "page" "s" */ -}}
 {{- $s := .s -}}
+{{- /* Day titles sit directly under the page title when the block has none. */ -}}
+{{- $h := cond (isset $s "title") "h3" "h2" -}}
 <section class="wrap pt-section">
   {{ with $s.title }}{{ partial "section-heading.html" (dict "kicker" $s.kicker "title" . "class" "mb-block") }}{{ end }}
   {{ with $s.note }}<p class="mb-block max-w-3xl border-l-4 border-yellow pl-4">{{ . }}</p>{{ end }}
@@ -17,7 +19,7 @@
           </p>
         </div>
         <div class="col-span-12 flex flex-col gap-6 md:col-span-8 lg:col-span-9">
-          <h3 class="display text-d-sm">{{ $day.title }}</h3>
+          {{ printf "<%s class=%q>" $h "display text-d-sm" | safeHTML }}{{ $day.title }}{{ printf "</%s>" $h | safeHTML }}
           {{ with $day.text }}<p class="max-w-2xl">{{ . }}</p>{{ end }}
           {{ with $day.items }}
             <ul class="flex flex-col gap-4">

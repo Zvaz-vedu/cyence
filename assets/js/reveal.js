@@ -19,9 +19,23 @@ function backdrop(el) {
   return "#f2ede6";
 }
 
-function assemble(el) {
-  const delay = parseFloat(getComputedStyle(el).getPropertyValue("--reveal-delay")) || 0;
-  const rect = el.getBoundingClientRect();
+// Everything assemble() needs to read from the layout. Elements entering
+// view together are all measured first and only then changed, so the
+// browser lays the page out once instead of once per element.
+function measure(el) {
+  const cs = getComputedStyle(el);
+  return {
+    el,
+    rect: el.getBoundingClientRect(),
+    delay: parseFloat(cs.getPropertyValue("--reveal-delay")) || 0,
+    borderTop: cs.borderTopWidth,
+    borderLeft: cs.borderLeftWidth,
+    isStatic: cs.position === "static",
+    bg: backdrop(el),
+  };
+}
+
+function assemble({ el, rect, delay, borderTop, borderLeft, isStatic, bg }) {
   const cols = Math.max(1, Math.ceil(rect.width / CELL));
   const rows = Math.max(1, Math.ceil(rect.height / CELL));
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -31,21 +45,20 @@ function assemble(el) {
   canvas.height = Math.ceil(rect.height * dpr);
   canvas.setAttribute("aria-hidden", "true");
   // Cover the border box too (absolute positioning starts inside borders).
-  const cs = getComputedStyle(el);
   Object.assign(canvas.style, {
     position: "absolute",
-    top: `-${cs.borderTopWidth}`,
-    left: `-${cs.borderLeftWidth}`,
+    top: `-${borderTop}`,
+    left: `-${borderLeft}`,
     width: `${rect.width}px`,
     height: `${rect.height}px`,
     pointerEvents: "none",
     zIndex: "5",
   });
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = backdrop(el);
+  ctx.fillStyle = bg;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if (cs.position === "static") el.style.position = "relative";
+  if (isStatic) el.style.position = "relative";
   el.appendChild(canvas);
   el.classList.add("is-revealed");
 
@@ -82,11 +95,9 @@ export function initReveal() {
   }
   const io = new IntersectionObserver(
     (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        io.unobserve(entry.target);
-        assemble(entry.target);
-      }
+      const shown = entries.filter((e) => e.isIntersecting).map((e) => e.target);
+      shown.forEach((el) => io.unobserve(el));
+      shown.map(measure).forEach(assemble);
     },
     { rootMargin: "0px 0px -8% 0px" },
   );

@@ -1,10 +1,12 @@
-{{- /* Contact cards in thirds. Context: dict "page" "s" */ -}}
+{{- /* Contact cards in thirds; a single card takes half the width.
+       Context: dict "page" "s" */ -}}
 {{- $s := .s -}}
+{{- $span := cond (eq (len $s.items) 1) "md:col-span-8 lg:col-span-6" "md:col-span-6 lg:col-span-4" -}}
 <section class="wrap pt-section">
   {{ with $s.title }}{{ partial "section-heading.html" (dict "kicker" $s.kicker "title" . "class" "mb-block") }}{{ end }}
   <ul class="grid grid-cols-12 gap-gutter">
     {{ range $i, $c := $s.items }}
-      <li class="col-span-12 flex flex-col gap-4 p-6 md:col-span-6 lg:col-span-4 {{ index (slice "bg-yellow" "bg-blue" "border-2 border-ink") (mod $i 3) }}" data-reveal style="--reveal-delay: {{ mul $i 90 }}ms">
+      <li class="col-span-12 flex flex-col gap-4 p-6 {{ $span }} {{ index (slice "bg-yellow" "bg-blue" "border-2 border-ink") (mod $i 3) }}" data-reveal style="--reveal-delay: {{ mul $i 90 }}ms">
         <p class="display text-d-sm">{{ $c.title }}</p>
         {{ with $c.text }}<p>{{ . }}</p>{{ end }}
         <div class="mt-auto flex flex-col gap-1 pt-4">

@@ -1,0 +1,18 @@
+{{- /* Structured data (schema.org Event) for search engines, on the homepage. */ -}}
+{{- $event := dict
+  "@context" "https://schema.org"
+  "@type" "Event"
+  "name" "CYENCE – Czech Youth Expo & Conference 2027"
+  "description" site.Params.description
+  "startDate" (site.Params.dateStart | time.Format "2006-01-02")
+  "endDate" (site.Params.dateEnd | time.Format "2006-01-02")
+  "eventStatus" "https://schema.org/EventScheduled"
+  "eventAttendanceMode" "https://schema.org/OfflineEventAttendanceMode"
+  "url" site.Home.Permalink
+  "image" (printf "/images/og-%s.png" site.Language.Lang | absURL)
+  "inLanguage" "en"
+  "location" (dict "@type" "Place" "name" "Brno" "address" (dict "@type" "PostalAddress" "addressLocality" "Brno" "addressCountry" "CZ"))
+  "organizer" (slice
+    (dict "@type" "Organization" "name" "Zvaž vědu!, z. s." "url" "https://zvazvedu.cz")
+    (dict "@type" "Organization" "name" "Hvězdárna a planetárium Brno" "url" "https://www.hvezdarna.cz")) -}}
+<script type="application/ld+json">{{ $event | jsonify | safeJS }}</script>

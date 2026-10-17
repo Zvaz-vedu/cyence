@@ -48,6 +48,7 @@
         </fieldset>
       </form>
 
+      <h2 class="sr-only">{{ T "projectsList" }}</h2>
       <ul class="mt-block grid grid-cols-12 gap-gutter" data-project-list>
         {{ range $i, $p := . }}
           {{- $country := index hugo.Data.countries ($p.Params.country | default "") -}}

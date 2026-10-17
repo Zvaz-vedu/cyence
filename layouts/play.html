@@ -8,7 +8,7 @@
 </head>
 <body class="overflow-hidden bg-ink">
   {{- $panel := "pointer-events-auto border-2 border-ink bg-cream" -}}
-  <div class="fixed inset-0 overflow-hidden select-none" data-play>
+  <main class="fixed inset-0 overflow-hidden select-none" data-play>
     <div class="absolute top-0 left-0 touch-none" data-play-field
          data-pattern-options='{"wavelengthYellow": 8, "wavelengthBlue": 12, "speed": 0.3}'>
       <canvas aria-label="{{ T "playFieldLabel" }}" role="img"></canvas>
@@ -24,11 +24,14 @@
            while) an invitation to the pattern lab in the same spot. */ -}}
     <div class="pointer-events-none absolute bottom-4 left-4 sm:bottom-6 sm:left-6" aria-live="polite">
       <p class="{{ $box }} px-3 py-2 text-sm" data-play-hint>{{ T "playHintText" }}</p>
-      {{ with site.GetPage "/pattern-lab" }}
+      {{- /* The pattern lab exists in English only: other languages link there. */ -}}
+      {{- $lab := site.GetPage "/pattern-lab" -}}
+      {{- if not $lab }}{{ range hugo.Sites }}{{ with .GetPage "/pattern-lab" }}{{ $lab = . }}{{ end }}{{ end }}{{ end -}}
+      {{ with $lab }}
         <a class="{{ $box }} block px-3 py-2 text-sm hover:bg-ink hover:text-cream" href="{{ .RelPermalink }}" data-play-lab hidden>{{ T "playLabLink" }} →</a>
       {{ end }}
     </div>
-  </div>
+  </main>
 
   {{ with resources.Get "js/play.js" }}
     {{ $opts := dict "minify" (not hugo.IsDevelopment) "format" "esm" "target" "es2020" }}

@@ -2,8 +2,10 @@
 <script>document.documentElement.classList.add("js")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ $title := cond .IsHome site.Title (printf "%s · CYENCE" .Title) }}
+{{- /* Page description: front-matter `description`, else the page lead. */ -}}
+{{ $desc := .Description | default .Params.lead | default site.Params.description }}
 <title>{{ $title }}</title>
-<meta name="description" content="{{ .Description | default site.Params.description }}">
+<meta name="description" content="{{ $desc }}">
 <meta name="color-scheme" content="light only">
 {{ if .Params.noindex }}<meta name="robots" content="noindex, nofollow">{{ end }}
 <meta name="theme-color" content="#f2ede6">
@@ -14,11 +16,19 @@
 <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
 {{ if eq .Language.Lang "en" }}<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">{{ end }}
 {{ end }}
+<meta property="og:site_name" content="CYENCE">
 <meta property="og:title" content="{{ $title }}">
-<meta property="og:description" content="{{ .Description | default site.Params.description }}">
+<meta property="og:description" content="{{ $desc }}">
 <meta property="og:type" content="{{ cond .IsHome "website" "article" }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
+{{- /* Social preview image, rendered by tools/og-image.mjs. */ -}}
+<meta property="og:image" content="{{ printf "/images/og-%s.png" site.Language.Lang | absURL }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="CYENCE – Czech Youth Expo &amp; Conference">
+<meta name="twitter:card" content="summary_large_image">
+{{ if .IsHome }}{{ partial "event-schema.html" . }}{{ end }}
 <link rel="preload" href="/fonts/zv-display.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/zv-regular.woff2" as="font" type="font/woff2" crossorigin>
 {{ with (templates.Defer (dict "key" "global")) }}

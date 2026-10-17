@@ -1,20 +1,27 @@
-# CYENCE team. PLACEHOLDER names – replace with the real team.
-# `photo` is optional (path under /static, e.g. /images/team/jan.jpg); without
-# it the person gets their own small interference pattern.
+# CYENCE organising committee and team (from the team, 2026-10-17).
+# `photo`: path under /static (square, 600 px). Without it the person gets
+# their own small interference pattern. `credit`: photo credit where the
+# licence requires one.
 groups:
-  - name: { en: "Leadership", cs: "Vedení" }
+  - name: { en: "Organising Committee", cs: "Organizační výbor" }
     people:
-      - { name: "Name Surname", role: { en: "Project lead", cs: "Vedoucí projektu" }, email: "" }
-      - { name: "Name Surname", role: { en: "Deputy lead", cs: "Zástupce vedoucího" } }
-      - { name: "Name Surname", role: { en: "Head of programme", cs: "Vedoucí programu" } }
-      - { name: "Name Surname", role: { en: "Head of partnerships", cs: "Vedoucí partnerství" } }
-  - name: { en: "Organising team", cs: "Organizační tým" }
+      - name: "Jan Herzig"
+        role: { en: "Chairman of Zvaž vědu!, z. s.", cs: "Předseda Zvaž vědu!, z. s." }
+        email: "herzig@zvazvedu.cz"
+        photo: "/images/team/herzig.webp"
+      - name: "Jiří Dušek"
+        role: { en: "Director of the Brno Observatory and Planetarium, Senator of the Parliament of the Czech Republic", cs: "Ředitel Hvězdárny a planetária Brno, senátor Parlamentu České republiky" }
+        photo: "/images/team/dusek.webp"
+        credit: "© Martin Vlček, Kancelář Senátu, CC BY 3.0"
+      - name: "Robert Plaga"
+        role: { en: "Minister of Education, Youth and Sports of the Czech Republic", cs: "Ministr školství, mládeže a tělovýchovy České republiky" }
+        photo: "/images/team/plaga.webp"
+        credit: "© MŠMT"
+  - name: { en: "Team", cs: "Tým" }
     people:
-      - { name: "Name Surname", role: { en: "International relations", cs: "Mezinárodní vztahy" } }
-      - { name: "Name Surname", role: { en: "Public Day coordinator", cs: "Koordinace veřejného dne" } }
-      - { name: "Name Surname", role: { en: "Production", cs: "Produkce" } }
-      - { name: "Name Surname", role: { en: "Marketing & PR", cs: "Marketing a PR" } }
-      - { name: "Name Surname", role: { en: "Jury coordinator", cs: "Koordinace poroty" } }
-      - { name: "Name Surname", role: { en: "Volunteers", cs: "Dobrovolníci" } }
-      - { name: "Name Surname", role: { en: "Finance", cs: "Finance" } }
-      - { name: "Name Surname", role: { en: "Design", cs: "Design" } }
+      - { name: "Lucie Kaiserová", role: { en: "Director of CYENCE", cs: "Ředitelka CYENCE" }, email: "kaiserova@zvazvedu.cz", photo: "/images/team/kaiserova.webp" }
+      - { name: "Eduard Plic", role: { en: "Administration coordinator", cs: "Koordinátor administrativy" }, email: "plic@zvazvedu.cz", photo: "/images/team/plic.webp" }
+      - { name: "Tomáš Rajchman", role: { en: "Tech coordinator", cs: "Technický koordinátor" }, email: "rajchman@zvazvedu.cz", photo: "/images/team/rajchman.webp" }
+      - { name: "Jakub Anderle", role: { en: "HR coordinator", cs: "HR koordinátor" }, email: "anderle@zvazvedu.cz", photo: "/images/team/anderle.webp" }
+      - { name: "Adéla Podholová", role: { en: "International relations coordinator", cs: "Koordinátorka mezinárodních vztahů" }, email: "podholova@zvazvedu.cz", photo: "/images/team/podholova.webp" }
+      - { name: "Petr Geršl", role: { en: "Webmaker", cs: "Tvůrce webu" }, email: "gersl@zvazvedu.cz", photo: "/images/team/gersl.webp" }

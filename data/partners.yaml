@@ -1,17 +1,23 @@
-# Partner tiers, in display order. Add partners as
-#   - { name: "Partner", logo: "/images/partners/partner.svg", url: "https://…" }
-# An empty tier shows "To be announced" tiles. `size: large` = two per row.
+# Organisers and partners by tier, in display order, for the Partners page.
+#   - { name: "Partner", logo: "/images/logos/partner.svg", url: "https://…" }
+# Logos are one-colour ink (#231f20) – prepare new ones with
+# tools/recolor-logo.py. Without `logo`, the name is shown instead.
+# `size`: xl (organisers, largest) | large | (default).
+# An empty tier shows "To be announced" tiles on the Partners page.
 tiers:
+  - id: organisers
+    size: xl
+    name: { en: "Organisers", cs: "Pořadatelé" }
+    partners:
+      - { name: "Hvězdárna a planetárium Brno", logo: "/images/logos/hvezdarna-brno.png", url: "https://www.hvezdarna.cz" }
+      - { name: "Zvaž vědu!", logo: "/images/logos/zvaz-vedu.png", url: "https://zvazvedu.cz" }
   - id: general
     size: large
-    name: { en: "General partner", cs: "Generální partner" }
-    partners: []
-  - id: main
-    name: { en: "Main partners", cs: "Hlavní partneři" }
-    partners: []
-  - id: institutional
-    name: { en: "Institutional partners", cs: "Institucionální partneři" }
-    partners: []
-  - id: media
-    name: { en: "Media partners", cs: "Mediální partneři" }
-    partners: []
+    name: { en: "General partners", cs: "Generální partneři" }
+    partners:
+      - { name: "Statutární město Brno", logo: "/images/logos/brno.svg", url: "https://www.brno.cz" }
+      - { name: "Jihomoravský kraj", logo: "/images/logos/jmk.svg", url: "https://www.jmk.cz" }
+  - id: partners
+    name: { en: "Partners", cs: "Partneři" }
+    partners:
+      - { name: "ESERO Czech Republic", logo: "/images/logos/esero.png", url: "https://www.eserocz.cz" }

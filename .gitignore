@@ -4,3 +4,9 @@ resources/_gen/
 .hugo_build.lock
 hugo_stats.json
 .DS_Store
+
+# Local only: design sources (logo generator, manual, master files, renders,
+# original fonts) and the editor/preview config.
+design/
+.claude/
+__pycache__/

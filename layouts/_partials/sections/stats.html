@@ -4,6 +4,7 @@
          –   pattern tile (plays once on scroll, then eases to a halt)
          3 – blue tile
          4 – outlined tile
+       With three items, the blue tile takes the whole second row.
        Context: dict "page" "s" */ -}}
 {{- $s := .s -}}
 {{- $items := $s.items -}}
@@ -37,7 +38,7 @@
     </li>
     {{ range $i, $item := after 2 $items }}
       {{- /* Third tile blue, fourth outlined – every tile different. */ -}}
-      <li class="col-span-6 flex flex-col justify-between gap-8 p-6 [container-type:inline-size] md:col-span-3 {{ if eq $i 0 }}bg-blue{{ else }}border-2 border-ink{{ end }}" data-reveal style="--reveal-delay: {{ add 270 (mul $i 90) }}ms">
+      <li class="{{ if eq (len $items) 3 }}col-span-12 md:col-span-6{{ else }}col-span-6 md:col-span-3{{ end }} flex flex-col justify-between gap-8 p-6 [container-type:inline-size] {{ if eq $i 0 }}bg-blue{{ else }}border-2 border-ink{{ end }}" data-reveal style="--reveal-delay: {{ add 270 (mul $i 90) }}ms">
         {{ partial "inline/stats-tile.html" $item }}
       </li>
     {{ end }}

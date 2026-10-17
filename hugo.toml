@@ -1,4 +1,4 @@
-baseURL = 'https://cyence.eu/'
+baseURL = 'https://cyence.org/'
 title = 'CYENCE'
 defaultContentLanguage = 'en'
 defaultContentLanguageInSubdir = false
@@ -9,7 +9,7 @@ disableKinds = ['taxonomy', 'term', 'rss']
 [params]
   organizer = 'Zvaž vědu!, z. s.'
   organizerURL = 'https://zvazvedu.cz'
-  email = 'info@cyence.eu'
+  email = 'info@zvazvedu.cz'
   dateStart = 2027-09-05
   dateEnd = 2027-09-12
 
@@ -20,14 +20,14 @@ disableKinds = ['taxonomy', 'term', 'rss']
     weight = 1
     title = 'CYENCE – Czech Youth Expo & Conference'
     [languages.en.params]
-      description = 'An international science research competition and conference for high school students. Brno, 5–12 September 2027.'
+      description = 'An international science competition and conference for young researchers aged 15–20. Brno, 5–12 September 2027.'
   [languages.cs]
     label = 'Čeština'
     locale = 'cs-CZ'
     weight = 2
     title = 'CYENCE – Czech Youth Expo & Conference'
     [languages.cs.params]
-      description = 'Mezinárodní soutěž a konference pro středoškolské výzkumníky. Brno, 5.–12. září 2027.'
+      description = 'Mezinárodní soutěž a konference pro mladé výzkumníky ve věku 15–20 let. Brno, 5.–12. září 2027.'
 
 # Main navigation. `pageRef` resolves to the translated URL in each language.
 [[languages.en.menus.main]]
@@ -64,13 +64,9 @@ disableKinds = ['taxonomy', 'term', 'rss']
   pageRef = '/projects'
   weight = 30
 [[languages.en.menus.main]]
-  name = 'Public Day'
-  pageRef = '/public-day'
+  name = 'Roadshow'
+  pageRef = '/roadshow'
   weight = 40
-[[languages.en.menus.main]]
-  name = 'Media'
-  pageRef = '/media'
-  weight = 50
 [[languages.en.menus.main]]
   name = 'Partners'
   pageRef = '/partners'
@@ -83,10 +79,6 @@ disableKinds = ['taxonomy', 'term', 'rss']
   name = 'Apply'
   pageRef = '/apply'
   weight = 10
-[[languages.en.menus.footer]]
-  name = 'News'
-  pageRef = '/news'
-  weight = 5
 [[languages.en.menus.footer]]
   name = 'Privacy policy'
   pageRef = '/privacy'
@@ -126,13 +118,9 @@ disableKinds = ['taxonomy', 'term', 'rss']
   pageRef = '/projects'
   weight = 30
 [[languages.cs.menus.main]]
-  name = 'Veřejný den'
-  pageRef = '/public-day'
+  name = 'Roadshow'
+  pageRef = '/roadshow'
   weight = 40
-[[languages.cs.menus.main]]
-  name = 'Média'
-  pageRef = '/media'
-  weight = 50
 [[languages.cs.menus.main]]
   name = 'Partneři'
   pageRef = '/partners'
@@ -145,10 +133,6 @@ disableKinds = ['taxonomy', 'term', 'rss']
   name = 'Přihláška'
   pageRef = '/apply'
   weight = 10
-[[languages.cs.menus.footer]]
-  name = 'Aktuality'
-  pageRef = '/news'
-  weight = 5
 [[languages.cs.menus.footer]]
   name = 'Ochrana osobních údajů'
   pageRef = '/privacy'
@@ -180,26 +164,33 @@ disableKinds = ['taxonomy', 'term', 'rss']
     source = 'hugo_stats.json'
     target = 'assets/notwatching/hugo_stats.json'
 
-# Czech URLs for sections (single pages use `slug` in their .cs.md file).
+# Czech URLs for sections (single pages use `slug` in their content/cs file).
 [languages.cs.permalinks.page]
   about = '/o-akci/:slug/'
   projects = '/projekty/:contentbasename/'
   news = '/aktuality/:slug/'
-  public-day = '/verejny-den/:slug/'
 [languages.cs.permalinks.section]
   about = '/o-akci/'
   projects = '/projekty/'
   news = '/aktuality/'
-  public-day = '/verejny-den/'
 
 [security.exec]
   allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']
 
+# Content per language: content/en and content/cs hold the same file names;
+# pages with the same path are each other's translations.
+[[module.mounts]]
+  source = 'content/en'
+  target = 'content'
+  [module.mounts.sites.matrix]
+    languages = ['en']
+[[module.mounts]]
+  source = 'content/cs'
+  target = 'content'
+  [module.mounts.sites.matrix]
+    languages = ['cs']
 # Projects live in /projects (one file each, in English) and are shown on
 # both language sites.
-[[module.mounts]]
-  source = 'content'
-  target = 'content'
 [[module.mounts]]
   source = 'projects'
   target = 'content/projects'

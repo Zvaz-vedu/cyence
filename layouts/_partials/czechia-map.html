@@ -1,7 +1,7 @@
 {{- /* Pixel map of Czechia built from data/czechia.json (96 × 56 cells).
        Regions are outlined by 1-cell cream gaps (lower-case cells in the
        data). Highlighted regions are black, the rest `fill` (default
-       yellow); Public Day cities are squares in the other accent colour.
+       yellow); Roadshow cities are squares in the other accent colour.
        Context: dict
          "class"       – classes for the <svg>
          "fill"        – "yellow" (default) | "blue"
@@ -12,14 +12,14 @@
                          the map to that window (0 = whole country)
          "isolate"     – bool: draw only the focus region, in blue with a
                          yellow marker (the "selected" look of the main map)
-         "interactive" – bool: Public Day regions get class "stop" and,
-                         like the markers, data-region for publicday.js
-         "links"       – bool: each Public Day region (with its marker) is a
+         "interactive" – bool: Roadshow regions get class "stop" and,
+                         like the markers, data-region for roadshow.js
+         "links"       – bool: each Roadshow region (with its marker) is a
                          link to its city page; the label links there too
          "current"     – region code drawn in the "selected" look (blue,
                          yellow marker) and not linked – the city's own page */ -}}
 {{- $m := hugo.Data.czechia -}}
-{{- $stops := hugo.Data.publicday.stops -}}
+{{- $stops := hugo.Data.roadshow.stops -}}
 {{- $colors := dict "yellow" "#ffc300" "blue" "#00aeef" -}}
 {{- $fillName := .fill | default "yellow" -}}
 {{- $fill := index $colors $fillName -}}
@@ -32,7 +32,7 @@
 {{- /* City page URLs by city key, for links. */ -}}
 {{- $pages := dict -}}
 {{- if $links -}}
-  {{- with site.GetPage "/public-day" -}}
+  {{- with site.GetPage "/roadshow" -}}
     {{- range .Pages -}}{{- $pages = merge $pages (dict .Params.city .) -}}{{- end -}}
   {{- end -}}
 {{- end -}}
@@ -70,7 +70,7 @@
 {{- $names := slice -}}
 {{- range $stops -}}{{- with index $m.cities .city -}}{{- $names = $names | append (cond $cs .nameCs .nameEn) -}}{{- end -}}{{- end -}}
 <svg class="block h-auto w-full {{ .class }}" viewBox="{{ delimit $vb " " }}" shape-rendering="crispEdges"
-     {{ if $links }}role="group" data-pd-map{{ else }}role="img"{{ end }} aria-label="{{ T "mapLabel" }}: {{ delimit $names ", " }}">
+     {{ if $links }}role="group" data-rs-map{{ else }}role="img"{{ end }} aria-label="{{ T "mapLabel" }}: {{ delimit $names ", " }}">
   {{- range $j, $row := $m.grid -}}
     {{- $chars := split $row "" -}}
     {{- $start := 0 -}}
@@ -104,7 +104,7 @@
       {{- $s := 2 -}}{{/* marker size in cells */}}
       {{- $markerRect := printf `<rect x="%v" y="%v" width="%d" height="%d" fill="%s"%s/>` (sub .x (math.Floor (div $s 2))) (sub .y (math.Floor (div $s 2))) $s $s (cond $isCurrent "#ffc300" $marker) (cond (and (or $interactive $links) (not $isCurrent)) (printf ` class="marker" data-region="%s"` $region) "") -}}
       {{- if and $links (not $isCurrent) $page -}}
-        <a href="{{ $page.RelPermalink }}" data-pd-select="{{ $region }}" data-pd-city="{{ $page.Params.city }}" aria-label="{{ $page.Title }}">
+        <a href="{{ $page.RelPermalink }}" data-rs-select="{{ $region }}" data-rs-city="{{ $page.Params.city }}" aria-label="{{ $page.Title }}">
           {{- range $grouped.Get $region -}}{{- . | safeHTML -}}{{- end -}}
           {{- $markerRect | safeHTML -}}
         </a>
@@ -133,7 +133,7 @@
         {{- $tx := cond (gt .x (sub $m.cols (mul 14 $u))) (sub .x (add $w $s)) (add .x $s) -}}
         {{- /* With links, the label links to the city as well, but stays out
                of the keyboard order (the region link already covers it). */ -}}
-        {{- if and $links (not $isCurrent) $page -}}<a href="{{ $page.RelPermalink }}" tabindex="-1" aria-hidden="true" data-pd-label="{{ $region }}">{{- end -}}
+        {{- if and $links (not $isCurrent) $page -}}<a href="{{ $page.RelPermalink }}" tabindex="-1" aria-hidden="true" data-rs-label="{{ $region }}">{{- end -}}
         <g aria-hidden="true"{{ if or $interactive $links }} class="label" data-region="{{ $region }}"{{ end }}>
           <rect x="{{ $tx }}" y="{{ sub .y (div $h 2) }}" width="{{ $w }}" height="{{ $h }}" fill="#f2ede6"/>
           <text x="{{ add $tx $pad }}" y="{{ add .y (mul 0.85 $u) }}" font-family="ZV Display, sans-serif" font-size="{{ $fs }}" fill="#231f20">{{ $label }}</text>

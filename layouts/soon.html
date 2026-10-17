@@ -1,0 +1,22 @@
+{{- /* "We're working on it" placeholder, e.g. for registration forms that
+       aren't live yet. Front matter: kicker, heading, text, buttons
+       (list of label/link, the first one is primary). */ -}}
+{{ define "main" }}
+  <section class="wrap grid-12 items-center pt-block lg:pt-section">
+    <div class="col-span-12 flex flex-col gap-8 md:col-span-6">
+      {{ with .Params.kicker }}<p class="display text-d-xs">{{ . }}</p>{{ end }}
+      <h1 class="display text-d-xl text-balance">{{ .Params.heading | default .Title }}</h1>
+      {{ with .Params.text }}<div class="prose-zv max-w-xl text-lg">{{ . | $.RenderString }}</div>{{ end }}
+      {{ with .Params.buttons }}
+        <p class="flex flex-wrap gap-4">
+          {{ range $i, $b := . }}
+            <a class="btn {{ cond (eq $i 0) "btn-primary" "btn-secondary" }}" href="{{ partial "link-to.html" $b.link }}">{{ $b.label }}</a>
+          {{ end }}
+        </p>
+      {{ end }}
+    </div>
+    <figure class="col-span-12 md:col-span-6">
+      {{ partial "pattern.html" (dict "aspect" "1/1" "aspectMobile" "4/3" "cols" 20 "wavelengthYellow" 5 "wavelengthBlue" 8 "animate" true "interactive" true) }}
+    </figure>
+  </section>
+{{ end }}

@@ -1,9 +1,11 @@
-{{- /* Numbered items in quarters (or thirds for 3 items).
+{{- /* Numbered items in quarters (or thirds for 3 items), with an optional
+       `text` (Markdown) under the heading and a `link` button below.
        Context: dict "page" "s" */ -}}
 {{- $s := .s -}}
 {{- $span := cond (eq (len $s.items) 3) "lg:col-span-4" "lg:col-span-3" -}}
 <section class="wrap grid-12 pt-section">
   {{ partial "section-heading.html" (dict "kicker" $s.kicker "title" $s.title "class" "col-span-12 lg:col-span-8") }}
+  {{ with $s.text }}<div class="prose-zv col-span-12 text-lg lg:col-span-8" data-reveal>{{ . | $.page.RenderString }}</div>{{ end }}
   <ol class="col-span-12 grid-12">
     {{ range $i, $item := $s.items }}
       <li class="col-span-12 flex flex-col gap-4 sm:col-span-6 {{ $span }}" data-reveal style="--reveal-delay: {{ mul $i 90 }}ms">

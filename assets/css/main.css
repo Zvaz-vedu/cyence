@@ -293,30 +293,30 @@
   }
 }
 
-/* Public Day maps (publicday.js): host regions are links; hover, keyboard
+/* Roadshow maps (roadshow.js): host regions are links; hover, keyboard
    focus and selection turn the region blue and its city marker yellow. CSS
    fill overrides the SVG fill attribute. */
-svg[data-pd-map] .stop,
-svg[data-pd-map] .marker,
-svg[data-pd-map] .label {
+svg[data-rs-map] .stop,
+svg[data-rs-map] .marker,
+svg[data-rs-map] .label {
   cursor: pointer;
 }
-svg[data-pd-map] .stop,
-svg[data-pd-map] .marker {
+svg[data-rs-map] .stop,
+svg[data-rs-map] .marker {
   transition: fill 120ms;
 }
-svg[data-pd-map] .stop:is(.is-hover, .is-selected),
-svg[data-pd-map] a:focus-visible .stop {
+svg[data-rs-map] .stop:is(.is-hover, .is-selected),
+svg[data-rs-map] a:focus-visible .stop {
   fill: var(--color-blue);
 }
-svg[data-pd-map] .marker:is(.is-hover, .is-selected),
-svg[data-pd-map] a:focus-visible .marker {
+svg[data-rs-map] .marker:is(.is-hover, .is-selected),
+svg[data-rs-map] a:focus-visible .marker {
   fill: var(--color-yellow);
 }
 /* No browser focus ring on map links: in SVG it is drawn in map units and
    becomes a large blob. Keyboard focus is shown by the region turning blue
    (above). */
-svg[data-pd-map] a:is(:focus, :focus-visible) {
+svg[data-rs-map] a:is(:focus, :focus-visible) {
   outline: none;
 }
 
