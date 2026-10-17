@@ -125,7 +125,7 @@
                the right edge the tag goes to the left of the marker. */ -}}
         {{- $label := upper (cond $cs .nameCs .nameEn) -}}
         {{- $fs := mul 2.4 $u -}}
-        {{- /* Exact text width from the font (measured by tools/build-map.py)
+        {{- /* Exact text width from the font (stored in data/czechia.json)
                plus an even padding on both sides. */ -}}
         {{- $pad := mul 0.5 $u -}}
         {{- $w := add (mul (cond $cs .widthCs .widthEn) $fs) (mul 2 $pad) -}}

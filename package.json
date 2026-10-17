@@ -8,7 +8,6 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.3",
     "hugo-extended": "^0.166.0",
-    "puppeteer-core": "^23.11.1",
     "tailwindcss": "^4.3.3"
   }
 }

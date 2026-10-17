@@ -5,8 +5,11 @@ resources/_gen/
 hugo_stats.json
 .DS_Store
 
-# Local only: design sources (logo generator, manual, master files, renders,
-# original fonts) and the editor/preview config.
-design/
-.claude/
 __pycache__/
+
+# Local only: design sources (logo generator, manual, master files, renders,
+# original fonts), maintenance scripts, the project plan and editor config.
+design/
+tools/
+PLAN.md
+.claude/

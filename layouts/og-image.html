@@ -1,7 +1,7 @@
 <!doctype html>
-{{- /* Social preview image (1200 × 630), not linked anywhere. It is turned
-       into static/images/og-<lang>.png by tools/og-image.mjs; the pages
-       point to that PNG in <meta property="og:image">. */ -}}
+{{- /* Social preview image (1200 × 630), not linked anywhere. A screenshot
+       of this page at 1200 × 630 is saved as static/images/og-<lang>.png,
+       which the pages use in <meta property="og:image"> (see README). */ -}}
 <html lang="{{ site.Language.Locale | default site.Language.Lang }}">
 <head>
   {{ partial "head.html" . }}

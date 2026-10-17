@@ -1,7 +1,7 @@
 # Organisers and partners by tier, in display order, for the Partners page.
 #   - { name: "Partner", logo: "/images/logos/partner.svg", url: "https://…" }
-# Logos are one-colour ink (#231f20) – prepare new ones with
-# tools/recolor-logo.py. Without `logo`, the name is shown instead.
+# Logos are one-colour ink (#231f20), see README. Without `logo`, the name is
+# shown instead.
 # `size`: xl (organisers, largest) | large | (default).
 # An empty tier shows "To be announced" tiles on the Partners page.
 tiers:

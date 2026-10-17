@@ -22,7 +22,7 @@
 <meta property="og:type" content="{{ cond .IsHome "website" "article" }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:locale" content="{{ replace site.Language.Locale "-" "_" }}">
-{{- /* Social preview image, rendered by tools/og-image.mjs. */ -}}
+{{- /* Social preview image (see README). */ -}}
 <meta property="og:image" content="{{ printf "/images/og-%s.png" site.Language.Lang | absURL }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
