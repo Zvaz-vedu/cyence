@@ -9,7 +9,7 @@ tiers:
     size: xl
     name: { en: "Organisers", cs: "Pořadatelé" }
     partners:
-      - { name: "Hvězdárna a planetárium Brno", logo: "/images/logos/hvezdarna-brno.png", url: "https://www.hvezdarna.cz" }
+      - { name: "Hvězdárna a planetárium Brno", logo: "/images/logos/hvezdarna-brno.webp", url: "https://www.hvezdarna.cz" }
       - { name: "Zvaž vědu!", logo: "/images/logos/zvaz-vedu.png", url: "https://zvazvedu.cz" }
   - id: general
     size: large
