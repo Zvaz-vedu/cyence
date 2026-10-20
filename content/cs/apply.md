@@ -35,5 +35,5 @@ sections:
     title: "Přiveďte nejtalentovanější mladé výzkumníky ze své země"
     text: "Zástupci národních soutěží a organizací už nyní mohou projevit zájem o účast."
     button: { label: "Projevit zájem", link: "/register" }
-    # TODO: tlačítko „Oficiální pravidla“ – doplnit, až tým pošle PDF.
+    download: { label: "Oficiální pravidla", link: "/pdf/CYENCE - rules 1.1.pdf" }
 ---

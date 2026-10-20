@@ -1,9 +1,9 @@
-# CYENCE organising committee and team (from the team, 2026-10-17).
+# CYENCE Executive Committee and team (from the team, 2026-10-17).
 # `photo`: path under /static (square, 600 px). Without it the person gets
 # their own small interference pattern. `credit`: photo credit where the
 # licence requires one.
 groups:
-  - name: { en: "Organising Committee", cs: "Organizační výbor" }
+  - name: { en: "Executive Committee", cs: "Executive Committee" }
     people:
       - name: "Jan Herzig"
         role: { en: "Chairman of Zvaž vědu!, z. s.", cs: "Předseda Zvaž vědu!, z. s." }

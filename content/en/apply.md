@@ -34,6 +34,5 @@ sections:
     title: "Bring your country's brightest young researchers"
     text: "Representatives of national competitions and organisations can already express their interest in taking part."
     button: { label: "Express your interest", link: "/register" }
-    # TODO: "Official rules" button – add when the team sends the PDF:
-    # (second button, e.g. { label: "Official rules", link: "/downloads/cyence-rules.pdf" })
+    download: { label: "Official rules", link: "/pdf/CYENCE - rules 1.1.pdf" }
 ---

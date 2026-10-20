@@ -9,9 +9,41 @@
       {{ with $s.kicker }}<p class="display text-d-xs">{{ . }}</p>{{ end }}
       <h2 class="display text-d-lg text-balance">{{ $s.title }}</h2>
       {{ with $s.text }}<p class="max-w-xl text-lg">{{ . }}</p>{{ end }}
-      {{ with $s.button }}
-        <p><a class="btn btn-dark text-d-sm" href="{{ partial "link-to.html" .link }}">{{ .label }} →</a></p>
-      {{ end }}
+      {{- $buttons := slice -}}
+      {{- with $s.buttons -}}
+        {{- $buttons = . -}}
+      {{- else -}}
+        {{- with $s.button -}}
+          {{- $buttons = $buttons | append . -}}
+        {{- end -}}
+        {{- with $s.download -}}
+          {{- $buttons = $buttons | append (merge (dict "download" true) .) -}}
+        {{- end -}}
+        {{- with $s.secondary -}}
+          {{- $buttons = $buttons | append . -}}
+        {{- end -}}
+        {{- with $s.button2 -}}
+          {{- $buttons = $buttons | append . -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with $buttons -}}
+        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-4">
+          {{ range $i, $b := . }}
+            {{- $rawLink := $b.link | default $b.file | default $b.url -}}
+            {{- $resolved := partial "link-to.html" $rawLink -}}
+            {{- $href := replace $resolved " " "%20" -}}
+            {{- $isDownload := or $b.download (strings.HasSuffix (lower $rawLink) ".pdf") -}}
+            {{- $defaultVariant := cond (eq $i 0) "btn-dark" "btn-secondary" -}}
+            {{- $variant := $b.variant | default $defaultVariant -}}
+            {{- $cls := $b.class | default (printf "btn %s text-d-sm" $variant) -}}
+            {{- $arrow := cond $isDownload "↓" "→" -}}
+            {{- if or (strings.HasSuffix $b.label "→") (strings.HasSuffix $b.label "↓") -}}
+              {{- $arrow = "" -}}
+            {{- end -}}
+            <a class="{{ $cls }}" href="{{ $href }}"{{ if $isDownload }} download{{ if and (ne (printf "%T" $b.download) "bool") $b.download }}="{{ $b.download }}"{{ end }}{{ end }}>{{ $b.label }}{{ with $arrow }} {{ . }}{{ end }}</a>
+          {{ end }}
+        </div>
+      {{- end -}}
     </div>
     <div>
       {{ partial "pattern.html" (merge (dict "aspect" "1/1" "aspectMobile" "4/3" "cols" 20 "wavelengthYellow" 5 "wavelengthBlue" 8 "animate" true "interactive" true "match" $id) ($s.pattern | default dict)) }}
